@@ -1,0 +1,11 @@
+name: T3SL4Claim
+author: [SYN_T3SL4]
+version: 1.0
+main: com.infumia.t3sl4.claim.T3SL4Claim
+description: A claim plugin
+softdepend: [Kredi,Skript]
+depend: [Vault]
+
+commands:
+  claim:
+    description: Claim command.
