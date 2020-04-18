@@ -1,0 +1,200 @@
+Gui:
+  name: 'Claim Menüsü'
+  size: 3
+  items:
+    0:
+      slot: 0
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    1:
+      slot: 1
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    2:
+      slot: 2
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    3:
+      slot: 3
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    4:
+      slot: 4
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    5:
+      slot: 5
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    6:
+      slot: 6
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    7:
+      slot: 7
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    8:
+      slot: 8
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    9:
+      slot: 9
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    17:
+      slot: 17
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    12:
+      slot: 12
+      type: 'TL'
+      name: '&bTL Claim'
+      item: 'PAPER'
+      day: 30
+      lore:
+        - '&7Bulundugun chunka 1 ay claim atar'
+        - '&7Claim boyutu 16x16 dır.'
+        - '&7Claim atılıcak alanın etrafı yeşil yünle çizilir'
+        - ''
+        - '&6Claim Fiyatı: &f%ücret%TL'
+        - '&2&mClaim atmak için tıkla!'
+    13:
+      slot: 13
+      type: 'kredi'
+      name: '&bKredi Claim'
+      item: 'PAPER'
+      day: 30
+      lore:
+        - '&7Bulundugun chunka 1 ay claim atar'
+        - '&7Claim boyutu 16x16 dır.'
+        - '&7Claim atılıcak alanın etrafı yeşil yünle çizilir'
+        - ''
+        - '&6Claim Fiyatı: &f%ücret% Kredi'
+        - '&2&mClaim atmak için tıkla!'
+    14:
+      slot: 14
+      type: 'coinType'
+      name: '&bCoin Claim'
+      item: 'PAPER'
+      day: 60
+      lore:
+        - '&7Bulundugun chunka 2 ay claim atar'
+        - '&7Claim boyutu 16x16 dır.'
+        - '&7Claim atılıcak alanın etrafı yeşil yünle çizilir'
+        - ''
+        - '&6Claim Fiyatı: &f%ücret% Coin'
+        - '&2&mClaim atmak için tıkla!'
+    18:
+      slot: 18
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    19:
+      slot: 19
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    20:
+      slot: 20
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    21:
+      slot: 21
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    22:
+      slot: 22
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    23:
+      slot: 23
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    24:
+      slot: 24
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    25:
+      slot: 25
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+    26:
+      slot: 26
+      name: '&6&lT3SL4Claim'
+      item: 'GLASS'
+      lore:
+        - '&aSüreli Claim Eklentisi!'
+Commands:
+  help1: '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+  help2: '&a/claim menü &f»&eClaim Menüsü Açılır.'
+  help3: '&a/claim ekle &7<&bİsim&7> &f»&eClaime Oyuncu Ekler.'
+  help4: '&a/claim sil &7<&bİsim&7> &f»&eClaimden oyuncu Siler.'
+  help5: '&a/claim bilgi &f»&eYakındaki Claimleri Gösterir.'
+  help6: '&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.'
+  help7: '&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.'
+  help8: '&a/claim liste &f»&eClaimlerinizini Gösterir.'
+Settings:
+  world: 'Orman'
+  prices:
+    TL:
+      value: 15000
+    kredi:
+      value: 10
+    coinType:
+      value: 25
+Messages:
+  has-not-value: "&6&lT3SL4Claim &8» &4Yeterli %value%&e'ün Yok!"
+  claim-disabled-world: "&6&lT3SL4Claim &8» &4Bu Dünyada Claim Atılamaz!"
+  claim-end: "&6&lT3SL4Claim &8» &b%player% &eAdlı Oyuncunun &a%claim% &eNumaralı &7(&c%location%&7) &eClaimi Bitmiştir!"
+  chunk-already-claimed: "&6&lT3SL4Claim &8» &4Bu Alan Zaten Claimli!"
+  claim-time-changed: "&6&lT3SL4Claim &8» &eClaim &b%time% &eGününe Kadar Uzatıldı!"
+  claim-set: "&6&lT3SL4Claim &8» &aBulunduğunuz Alan Başarıyla Claimlendi!"
+  unknown-error: "&6&lT3SL4Claim &8» &4Bilinmeyen Hata Oluştu Lütfen Sonra Tekrar Deneyin!"
+  claim-info: "&6&lT3SL4Claim &8» &b%player% &eAdlı Oyuncunun &a%time% &eSüresince Sahip Olduğu Claimdesiniz!"
+  you-are-not-staff: "&6&lT3SL4Claim &8» &4Bu Claimde Yetkili Değilsiniz!"
+  he-already-staff: "&6&lT3SL4Claim &8» &4Bu Oyuncu Zaten Yetkili!"
+  he-not-staff: "&6&lT3SL4Claim &8» &4Bu Oyuncu Zaten Yetkili Değil!"
+  staff-added: "&6&lT3SL4Claim &8» &b%player% &eClaime Yetkili Olarak Eklendi!"
+  staff-removed: "&6&lT3SL4Claim &8» &b%player% &eAdlı Yetkili Claimden Silindi!"
+  staff-list: "&6&lT3SL4Claim &8» &eBu Claimdeki Yetkililer: &b%staffs-'&a,&f'%"
+  claim-list: "&6&lT3SL4Claim &8» &eBu Claimleriniz: &b%claims-'&a,&f'%"
+  unknown-claim: "&6&lT3SL4Claim &8» &4Bulunduğunuz Yerde Bir Claim Yok!"
+  console: "&6&lT3SL4Claim &8» &4Bu Komutu Konsoldan Giremezsin!"
+  reload: "&6&lT3SL4Claim &8» &aEklenti Başarıyla Yenilendi!"
