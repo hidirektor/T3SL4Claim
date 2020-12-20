@@ -8,8 +8,7 @@ import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.util.Gui;
 import me.t3sl4.claim.util.Messages;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,20 +31,28 @@ public class ClaimCommand implements CommandExecutor {
 			return false;
 		}
 		if (args.length == 0) {
-			//List<String> list = Messages.COMMAND_HELP;
-			//String[] help = new String[list.size()];
-			//for(int x=0; x<list.size(); x++) {
-				//help[x] = list.get(x);
-			//}
-			//p.sendMessage(help);
-			p.sendMessage(Messages.COMMAND_HELP1);
-			p.sendMessage(Messages.COMMAND_HELP2);
-			p.sendMessage(Messages.COMMAND_HELP3);
-			p.sendMessage(Messages.COMMAND_HELP4);
-			p.sendMessage(Messages.COMMAND_HELP5);
-			p.sendMessage(Messages.COMMAND_HELP6);
-			p.sendMessage(Messages.COMMAND_HELP7);
-			p.sendMessage(Messages.COMMAND_HELP8);
+			if(p.isOp()) {
+				p.sendMessage(Messages.COMMAND_HELP1);
+				p.sendMessage(Messages.COMMAND_HELPRELOAD);
+				p.sendMessage(Messages.COMMAND_HELP2);
+				p.sendMessage(Messages.COMMAND_HELP3);
+				p.sendMessage(Messages.COMMAND_HELP4);
+				p.sendMessage(Messages.COMMAND_HELP5);
+				p.sendMessage(Messages.COMMAND_HELP6);
+				p.sendMessage(Messages.COMMAND_HELP7);
+				p.sendMessage(Messages.COMMAND_HELP8);
+				p.sendMessage(Messages.COMMAND_HELP9);
+			} else {
+				p.sendMessage(Messages.COMMAND_HELP1);
+				p.sendMessage(Messages.COMMAND_HELP2);
+				p.sendMessage(Messages.COMMAND_HELP3);
+				p.sendMessage(Messages.COMMAND_HELP4);
+				p.sendMessage(Messages.COMMAND_HELP5);
+				p.sendMessage(Messages.COMMAND_HELP6);
+				p.sendMessage(Messages.COMMAND_HELP7);
+				p.sendMessage(Messages.COMMAND_HELP8);
+				p.sendMessage(Messages.COMMAND_HELP9);
+			}
 			return true;
 		} else if (args[0].equalsIgnoreCase("menü") || args[0].equalsIgnoreCase("menu")) {
 			 new Gui();
@@ -119,7 +126,43 @@ public class ClaimCommand implements CommandExecutor {
 			String joinType = warp_split[1].substring(7).replace("'", "");
 			p.sendMessage(Messages.colorize(Messages.CLAIM_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getPlayerClaims(p)))));
 			return true;
-        } else if (args[0].equalsIgnoreCase("reload") && p.isOp()) {
+        } else if (args[0].equalsIgnoreCase("chunk") && p.isOp()) {
+			if(!(p instanceof Player)) {
+				p.sendMessage(Messages.CONSOLE);
+			} else {
+				T3SL4Claim.viewers.add(p);
+				T3SL4Claim.viewerslocs.add(p.getLocation());
+				final Chunk chunk = p.getLocation().getChunk();
+				Location corner1 = chunk.getBlock(0, 0, 0).getLocation();
+				Location corner2 = chunk.getBlock(15, 0, 0).getLocation();
+				Location corner3 = chunk.getBlock(0, 0, 15).getLocation();
+				Location corner4 = chunk.getBlock(15, 0, 15).getLocation();
+				int i = 0;
+				int i2 = 0;
+				for (i = 0; i < 127; ++i) {
+					for (i2 = 0; i2 < 15; ++i2) {
+						corner1 = chunk.getBlock(i2, i, 0).getLocation();
+						corner2 = chunk.getBlock(15, i, i2).getLocation();
+						corner3 = chunk.getBlock(15 - i2, i, 15).getLocation();
+						corner4 = chunk.getBlock(0, i, 15 - i2).getLocation();
+						if (corner1.getBlock().getType() == Material.AIR) {
+							p.sendBlockChange(corner1, Material.GLASS, (byte)0);
+						}
+						if (corner2.getBlock().getType() == Material.AIR) {
+							p.sendBlockChange(corner2, Material.GLASS, (byte)0);
+						}
+						if (corner3.getBlock().getType() == Material.AIR) {
+							p.sendBlockChange(corner3, Material.GLASS, (byte)0);
+						}
+						if (corner4.getBlock().getType() == Material.AIR) {
+							p.sendBlockChange(corner4, Material.GLASS, (byte)0);
+						}
+					}
+				}
+				p.sendMessage(Messages.colorize(Messages.CHUNK_VIEWED));
+				return true;
+			}
+		} else if (args[0].equalsIgnoreCase("reload") && p.isOp()) {
 			Messages.loadMessages(T3SL4Claim.getInstance().getConfig());
 			p.sendMessage(Messages.colorize(Messages.RELOAD));
 			return true;

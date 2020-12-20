@@ -18,6 +18,8 @@ public class Messages {
 	public static String COMMAND_HELP6 = "&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.";
 	public static String COMMAND_HELP7 = "&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.";
 	public static String COMMAND_HELP8 = "&a/claim liste &f»&eClaimlerinizini Gösterir.";
+	public static String COMMAND_HELP9 = "&a/claim chunk &f»&eBulunduğunuz Chunk Sınırlarını Gösterir.";
+	public static String COMMAND_HELPRELOAD = "&a/claim reload &f»&eEklentiyi Yeniler.";
 	
 	public static String ENABLED_WORLD = "Orman";
 	
@@ -37,6 +39,8 @@ public class Messages {
 	public static String CLAIM_LIST = "&6&lT3SL4Claim &8» &eBu Claimleriniz: &b%claims-'&a,&f'%";
 	public static String UNKNOWN_CLAIM = "&6&lT3SL4Claim &8» &4Bulunduğunuz Yerde Bir Claim Yok!";
 	public static String HAS_NOT_VALUE = "&6&lT3SL4Claim &8» &4Yeterli %value%&e'ün Yok!";
+	public static String CHUNK_VIEWED = "&6&lT3SL4Claim &8» &eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!";
+	public static String CHUNK_REMOVED= "&6&lT3SL4Claim &8» &eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!";
 	public static String CONSOLE= "&6&lT3SL4Claim &8» &4Bu Komutu Konsoldan Giremezsin!";
 	public static String RELOAD = "&6&lT3SL4Claim &8» &aEklenti Başarıyla Yenilendi!";
 	
@@ -53,6 +57,8 @@ public class Messages {
 		COMMAND_HELP6 = colorize(fc.getString("Commands.help6"));
 		COMMAND_HELP7 = colorize(fc.getString("Commands.help7"));
 		COMMAND_HELP8 = colorize(fc.getString("Commands.help8"));
+		COMMAND_HELP9 = colorize(fc.getString("Commands.help9"));
+		COMMAND_HELPRELOAD = colorize(fc.getString("Commands.helpreload"));
 		
 		ENABLED_WORLD = fc.getString("Settings.world");
 		
@@ -72,6 +78,8 @@ public class Messages {
 		STAFF_LIST = fc.getString("Messages.staff-list");
 		CLAIM_LIST = fc.getString("Messages.claim-list");
 		UNKNOWN_CLAIM = colorize(fc.getString("Messages.unknown-claim"));
+		CHUNK_VIEWED = colorize(fc.getString("Messages.chunk-viewed"));
+		CHUNK_REMOVED = colorize(fc.getString("Messages.chunk-removed"));
 		CONSOLE = colorize(fc.getString("Messages.console"));
 		RELOAD = colorize(fc.getString("Messages.reload"));
 		

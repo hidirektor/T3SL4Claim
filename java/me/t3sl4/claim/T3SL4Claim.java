@@ -2,6 +2,7 @@ package me.t3sl4.claim;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
+import me.t3sl4.claim.listeners.PlayerListener;
 import me.t3sl4.claim.skript.SkriptLoader;
 import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.commands.ClaimCommand;
@@ -9,6 +10,8 @@ import me.t3sl4.claim.util.Messages;
 import me.t3sl4.claim.util.SettingsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +22,8 @@ import me.t3sl4.claim.listeners.InventoryClick;
 import me.t3sl4.claim.scheduler.RemovingRunnable;
 import net.milkbowl.vault.economy.Economy;
 
+import java.util.ArrayList;
+
 public class T3SL4Claim extends JavaPlugin{
 
 	private static SettingsManager manager = SettingsManager.getInstance();
@@ -27,7 +32,14 @@ public class T3SL4Claim extends JavaPlugin{
     private static ClaimUtil claimUtil;
 
     private SkriptLoader skriptLoader;
-    
+    public static ArrayList<Player> viewers;
+    public static ArrayList<Location> viewerslocs;
+
+    static {
+        T3SL4Claim.viewers = new ArrayList<Player>();
+        T3SL4Claim.viewerslocs = new ArrayList<Location>();
+    }
+
     @Override
     public void onEnable(){
         instance = this;
@@ -69,6 +81,7 @@ public class T3SL4Claim extends JavaPlugin{
     private void registerListeners() {
     	getServer().getPluginManager().registerEvents(new InteractListener(), this);
     	getServer().getPluginManager().registerEvents(new InventoryClick(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
     
     private void registerComamands() {
