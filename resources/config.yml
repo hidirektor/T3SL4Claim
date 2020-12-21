@@ -201,4 +201,5 @@ Messages:
   chunk-viewed: "&6&lT3SL4Claim &8» &eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!"
   chunk-removed: "&6&lT3SL4Claim &8» &eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!"
   console: "&6&lT3SL4Claim &8» &4Bu Komutu Konsoldan Giremezsin!"
+  error-cmd: "&6&lT3SL4Claim &8» &4Bu Komut İçin Yetkin Yok!"
   reload: "&6&lT3SL4Claim &8» &aEklenti Başarıyla Yenilendi!"

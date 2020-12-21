@@ -8,8 +8,7 @@ public class Messages {
 
 	public static String GUI_NAME = "Claim Meünüsü";
 	public static int GUI_SIZE = 1;
-	
-	//public static List<String> COMMAND_HELP = new ArrayList<String>();
+
 	public static String COMMAND_HELP1 = "&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-";
 	public static String COMMAND_HELP2 = "&a/claim menü &f»&eClaim Menüsü Açılır.";
 	public static String COMMAND_HELP3 = "&a/claim ekle &7<&bİsim&7> &f»&eClaime Oyuncu Ekler.";
@@ -40,15 +39,15 @@ public class Messages {
 	public static String UNKNOWN_CLAIM = "&6&lT3SL4Claim &8» &4Bulunduğunuz Yerde Bir Claim Yok!";
 	public static String HAS_NOT_VALUE = "&6&lT3SL4Claim &8» &4Yeterli %value%&e'ün Yok!";
 	public static String CHUNK_VIEWED = "&6&lT3SL4Claim &8» &eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!";
-	public static String CHUNK_REMOVED= "&6&lT3SL4Claim &8» &eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!";
-	public static String CONSOLE= "&6&lT3SL4Claim &8» &4Bu Komutu Konsoldan Giremezsin!";
+	public static String CHUNK_REMOVED = "&6&lT3SL4Claim &8» &eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!";
+	public static String CONSOLE = "&6&lT3SL4Claim &8» &4Bu Komutu Konsoldan Giremezsin!";
+	public static String ERROR_CMD = "&6&lT3SL4Claim &8» &4Bu Komut İçin Yetkin Yok!";
 	public static String RELOAD = "&6&lT3SL4Claim &8» &aEklenti Başarıyla Yenilendi!";
 	
 	public static void loadMessages(FileConfiguration fc) {
 		GUI_NAME = colorize(fc.getString("Gui.name"));
 		GUI_SIZE = fc.getInt("Gui.size");
-		
-		//COMMAND_HELP = colorizeList(fc.getStringList("Commands.help"));
+
 		COMMAND_HELP1 = colorize(fc.getString("Commands.help1"));
 		COMMAND_HELP2 = colorize(fc.getString("Commands.help2"));
 		COMMAND_HELP3 = colorize(fc.getString("Commands.help3"));
@@ -81,7 +80,7 @@ public class Messages {
 		CHUNK_VIEWED = colorize(fc.getString("Messages.chunk-viewed"));
 		CHUNK_REMOVED = colorize(fc.getString("Messages.chunk-removed"));
 		CONSOLE = colorize(fc.getString("Messages.console"));
-		RELOAD = colorize(fc.getString("Messages.reload"));
+		ERROR_CMD = colorize(fc.getString("Messages.error-cmd"));
 		
 		for(String str: fc.getConfigurationSection("Gui.items").getKeys(false)) {
 			new ClaimGuiItem(fc, str);
