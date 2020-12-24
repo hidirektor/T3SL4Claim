@@ -1,3 +1,54 @@
+Prefix: '&6&lT3SL4Claim &8» '
+Settings:
+  enabled-worlds:
+    - 'world'
+    - 'Orman'
+  prices:
+    TL:
+      value: 15000
+    kredi:
+      value: 10
+    coinType:
+      value: 25
+World:
+  world: "&eDünya: &f"
+  X: "&eX: &f"
+  Z: "&eZ: &f"
+  claim: "&eClaim No: &f"
+  splitter: " &7-> "
+Commands:
+  help1: '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+  helpreload: '&a/claim reload &f»&eEklentiyi Yeniler.'
+  help2: '&a/claim menü &f»&eClaim Menüsü Açılır.'
+  help3: '&a/claim ekle &bOyuncu &f»&eClaime Oyuncu Ekler.'
+  help4: '&a/claim sil &bOyuncu &f»&eClaimden Oyuncu Siler.'
+  help5: '&a/claim bilgi &f»&eYakındaki Claimleri Gösterir.'
+  help6: '&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.'
+  help7: '&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.'
+  help8: '&a/claim liste &f»&eClaimlerinizini Gösterir.'
+  help9: '&a/claim chunk &f»&eBulunduğunuz Chunk Sınırlarını Gösterir.'
+Messages:
+  has-not-value: "&4Yeterli %value%&e'ün Yok!"
+  claim-disabled-world: "&4Bu Dünyada Claim Atılamaz!"
+  claim-end: "&b%player% &eAdlı Oyuncunun &a%claim% &eNumaralı &7(&c%location%&7) &eClaimi Bitmiştir!"
+  chunk-already-claimed: "&4Bu Alan Zaten Claimli!"
+  claim-time-changed: "&eClaim &b%time% &eGününe Kadar Uzatıldı!"
+  claim-set: "&aBulunduğunuz Alan Başarıyla Claimlendi!"
+  unknown-error: "&4Bilinmeyen Hata Oluştu Lütfen Sonra Tekrar Deneyin!"
+  claim-info: "&b%player% &eAdlı Oyuncunun &a%time% &eSüresince Sahip Olduğu Claimdesiniz!"
+  you-are-not-staff: "&4Bu Claimde Yetkili Değilsiniz!"
+  he-already-staff: "&4Bu Oyuncu Zaten Yetkili!"
+  he-not-staff: "&4Bu Oyuncu Zaten Yetkili Değil!"
+  staff-added: "&b%player% &eClaime Yetkili Olarak Eklendi!"
+  staff-removed: "&b%player% &eAdlı Yetkili Claimden Silindi!"
+  staff-list: "&eBu Claimdeki Yetkililer: &b%staffs-'&a,&f'%"
+  claim-list: "&eClaimleriniz: &b%claims-'&a,&f'%"
+  unknown-claim: "&4Bulunduğunuz Yerde Bir Claim Yok!"
+  chunk-viewed: "&eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!"
+  chunk-removed: "&eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!"
+  console: "&4Bu Komutu Konsoldan Giremezsin!"
+  error-cmd: "&4Bu Komut İçin Yetkin Yok!"
+  reload: "&aEklenti Başarıyla Yenilendi!"
 Gui:
   name: 'Claim Menüsü'
   size: 3
@@ -161,45 +212,3 @@ Gui:
       item: 'GLASS'
       lore:
         - '&aSüreli Claim Eklentisi!'
-Commands:
-  help1: '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
-  helpreload: '&a/claim reload &f»&eEklentiyi Yeniler.'
-  help2: '&a/claim menü &f»&eClaim Menüsü Açılır.'
-  help3: '&a/claim ekle &7<&bİsim&7> &f»&eClaime Oyuncu Ekler.'
-  help4: '&a/claim sil &7<&bİsim&7> &f»&eClaimden oyuncu Siler.'
-  help5: '&a/claim bilgi &f»&eYakındaki Claimleri Gösterir.'
-  help6: '&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.'
-  help7: '&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.'
-  help8: '&a/claim liste &f»&eClaimlerinizini Gösterir.'
-  help9: '&a/claim chunk &f»&eBulunduğunuz Chunk Sınırlarını Gösterir.'
-Settings:
-  world: 'Orman'
-  prices:
-    TL:
-      value: 15000
-    kredi:
-      value: 10
-    coinType:
-      value: 25
-Messages:
-  has-not-value: "&6&lT3SL4Claim &8» &4Yeterli %value%&e'ün Yok!"
-  claim-disabled-world: "&6&lT3SL4Claim &8» &4Bu Dünyada Claim Atılamaz!"
-  claim-end: "&6&lT3SL4Claim &8» &b%player% &eAdlı Oyuncunun &a%claim% &eNumaralı &7(&c%location%&7) &eClaimi Bitmiştir!"
-  chunk-already-claimed: "&6&lT3SL4Claim &8» &4Bu Alan Zaten Claimli!"
-  claim-time-changed: "&6&lT3SL4Claim &8» &eClaim &b%time% &eGününe Kadar Uzatıldı!"
-  claim-set: "&6&lT3SL4Claim &8» &aBulunduğunuz Alan Başarıyla Claimlendi!"
-  unknown-error: "&6&lT3SL4Claim &8» &4Bilinmeyen Hata Oluştu Lütfen Sonra Tekrar Deneyin!"
-  claim-info: "&6&lT3SL4Claim &8» &b%player% &eAdlı Oyuncunun &a%time% &eSüresince Sahip Olduğu Claimdesiniz!"
-  you-are-not-staff: "&6&lT3SL4Claim &8» &4Bu Claimde Yetkili Değilsiniz!"
-  he-already-staff: "&6&lT3SL4Claim &8» &4Bu Oyuncu Zaten Yetkili!"
-  he-not-staff: "&6&lT3SL4Claim &8» &4Bu Oyuncu Zaten Yetkili Değil!"
-  staff-added: "&6&lT3SL4Claim &8» &b%player% &eClaime Yetkili Olarak Eklendi!"
-  staff-removed: "&6&lT3SL4Claim &8» &b%player% &eAdlı Yetkili Claimden Silindi!"
-  staff-list: "&6&lT3SL4Claim &8» &eBu Claimdeki Yetkililer: &b%staffs-'&a,&f'%"
-  claim-list: "&6&lT3SL4Claim &8» &eBu Claimleriniz: &b%claims-'&a,&f'%"
-  unknown-claim: "&6&lT3SL4Claim &8» &4Bulunduğunuz Yerde Bir Claim Yok!"
-  chunk-viewed: "&6&lT3SL4Claim &8» &eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!"
-  chunk-removed: "&6&lT3SL4Claim &8» &eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!"
-  console: "&6&lT3SL4Claim &8» &4Bu Komutu Konsoldan Giremezsin!"
-  error-cmd: "&6&lT3SL4Claim &8» &4Bu Komut İçin Yetkin Yok!"
-  reload: "&6&lT3SL4Claim &8» &aEklenti Başarıyla Yenilendi!"
