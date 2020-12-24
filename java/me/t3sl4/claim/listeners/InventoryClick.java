@@ -1,7 +1,7 @@
 package me.t3sl4.claim.listeners;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.util.ClaimGUIItem;
+import me.t3sl4.claim.gui.ClaimGUIItem;
 import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;

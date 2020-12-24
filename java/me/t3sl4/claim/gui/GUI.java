@@ -1,6 +1,7 @@
-package me.t3sl4.claim.util;
+package me.t3sl4.claim.gui;
 
 import me.t3sl4.claim.T3SL4Claim;
+import me.t3sl4.claim.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +14,7 @@ public class GUI {
 	static Inventory inv;
 
     public GUI(){
-        inv = Bukkit.createInventory(null, 9*MessageUtil.GUI_SIZE, MessageUtil.GUI_NAME);
+        inv = Bukkit.createInventory(null, 9* MessageUtil.GUI_SIZE, MessageUtil.GUI_NAME);
 
         List<ClaimGUIItem> reloadCGI = new ArrayList<>();
         for(ClaimGUIItem cgi: ClaimGUIItem.guiItems) {

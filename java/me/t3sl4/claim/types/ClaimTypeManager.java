@@ -1,7 +1,6 @@
 package me.t3sl4.claim.types;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.util.ClaimType;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;

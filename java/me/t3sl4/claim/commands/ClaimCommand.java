@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.t3sl4.claim.T3SL4Claim;
+import me.t3sl4.claim.gui.GUI;
 import me.t3sl4.claim.util.*;
 
 import org.bukkit.*;

@@ -1,9 +1,10 @@
-package me.t3sl4.claim.util;
+package me.t3sl4.claim.gui;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import me.t3sl4.claim.types.ClaimType;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;

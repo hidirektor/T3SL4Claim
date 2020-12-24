@@ -8,7 +8,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import me.t3sl4.claim.util.ClaimType;
+import me.t3sl4.claim.types.ClaimType;
 import org.bukkit.event.Event;
 
 import java.util.ArrayList;

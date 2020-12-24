@@ -11,7 +11,7 @@ import ch.njol.util.Kleenean;
 import me.t3sl4.claim.T3SL4Claim;
 import me.t3sl4.claim.types.ClaimTypeManager;
 import me.t3sl4.claim.skript.SkriptLoader;
-import me.t3sl4.claim.util.ClaimType;
+import me.t3sl4.claim.types.ClaimType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 @Name("Register claim type")

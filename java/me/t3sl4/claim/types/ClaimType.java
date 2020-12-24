@@ -1,4 +1,4 @@
-package me.t3sl4.claim.util;
+package me.t3sl4.claim.types;
 
 import java.util.ArrayList;
 import java.util.List;

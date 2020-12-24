@@ -1,5 +1,7 @@
 package me.t3sl4.claim.util;
 
+import me.t3sl4.claim.gui.ClaimGUIItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
