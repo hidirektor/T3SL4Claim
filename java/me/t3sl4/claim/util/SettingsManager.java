@@ -32,7 +32,7 @@ public class SettingsManager {
     private File mfile;
 
     public void setup(Plugin p) {
-        cfile = new File(p.getDataFolder(), "config.yml");    
+        cfile = new File(p.getDataFolder(), "config.yml");
         //config.options().copyDefaults(true);
         //saveConfig();
 
@@ -100,4 +100,3 @@ public class SettingsManager {
         return p.getDescription();
     }
 }
-

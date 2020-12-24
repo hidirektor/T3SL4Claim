@@ -1,9 +1,9 @@
 package me.t3sl4.claim.listeners;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.util.ClaimGuiItem;
+import me.t3sl4.claim.util.ClaimGUIItem;
 import me.t3sl4.claim.util.ClaimUtil;
-import me.t3sl4.claim.util.Messages;
+import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;
 import net.milkbowl.vault.economy.Economy;
 
@@ -22,7 +22,7 @@ public class InventoryClick implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
-        if(!e.getInventory().getName().equalsIgnoreCase(Messages.GUI_NAME)) return;
+        if(!e.getInventory().getName().equalsIgnoreCase(MessageUtil.GUI_NAME)) return;
         if(e.getCurrentItem() == null) return;
         if(!e.getCurrentItem().hasItemMeta()) return;
         if(e.getCurrentItem().getItemMeta().hasDisplayName()){
@@ -30,11 +30,11 @@ public class InventoryClick implements Listener {
             Player p = (Player) e.getWhoClicked();
             Chunk chunk = p.getLocation().getChunk();
             if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
-            	p.sendMessage(Messages.CLAIM_ALREADY_CLAIMED);
+            	p.sendMessage(MessageUtil.CLAIM_ALREADY_CLAIMED);
             	p.closeInventory();
             	return;
             }
-            for (ClaimGuiItem cgi: ClaimGuiItem.guiItems) {
+            for (ClaimGUIItem cgi: ClaimGUIItem.guiItems) {
             	if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(cgi.getItem().getItemMeta().getDisplayName())) {
             		if (cgi.getClaimType()==null) break;
             		if(cgi.getClaimType().get(p)>=cgi.getPrice()) {
@@ -46,9 +46,9 @@ public class InventoryClick implements Listener {
             					cgi.getClaimType().remove(p, cgi.getPrice());
             					String str = claimUtil.timeAddCalculate(time, day+"/00/0000 00:00");
             					claimUtil.setTime(chunk, str);
-            					p.sendMessage(Messages.CLAIM_TIME_CHANGED.replace("%time%", str));
+            					p.sendMessage(MessageUtil.CLAIM_TIME_CHANGED.replace("%time%", str));
             				}else{
-            					p.sendMessage(Messages.UNKNOWN_ERROR);
+            					p.sendMessage(MessageUtil.UNKNOWN_ERROR);
             					p.closeInventory();
             				}
             			}else{
@@ -56,14 +56,14 @@ public class InventoryClick implements Listener {
             				if(time!=null) {       
             					cgi.getClaimType().remove(p, cgi.getPrice());
             					claimUtil.createClaim(p, chunk, time);
-            					p.sendMessage(Messages.CLAIM_SET);
+            					p.sendMessage(MessageUtil.CLAIM_SET);
             				}else{
-            					p.sendMessage(Messages.UNKNOWN_ERROR);
+            					p.sendMessage(MessageUtil.UNKNOWN_ERROR);
             				}
             			}
             		} else {
             			p.closeInventory();
-						p.sendMessage(Messages.HAS_NOT_VALUE.replace("%value%", cgi.getClaimType().getName()));
+						p.sendMessage(MessageUtil.HAS_NOT_VALUE.replace("%value%", cgi.getClaimType().getName()));
 					}
             		break;
             	}

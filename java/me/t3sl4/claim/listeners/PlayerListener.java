@@ -1,12 +1,11 @@
 package me.t3sl4.claim.listeners;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.util.Messages;
+import me.t3sl4.claim.util.MessageUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -50,7 +49,7 @@ public class PlayerListener implements Listener {
                         }
                     }
                 }
-                player.sendMessage(Messages.colorize(Messages.CHUNK_REMOVED));
+                player.sendMessage(MessageUtil.colorize(MessageUtil.CHUNK_REMOVED));
                 T3SL4Claim.viewers.remove(player);
                 T3SL4Claim.viewerslocs.remove(index);
             }

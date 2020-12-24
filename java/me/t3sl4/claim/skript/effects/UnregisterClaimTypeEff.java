@@ -6,10 +6,8 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import me.t3sl4.claim.claimtypes.ClaimTypeManager;
-import org.bukkit.entity.Player;
+import me.t3sl4.claim.types.ClaimTypeManager;
 import org.bukkit.event.Event;
 
 @Name("Unregister claim type")

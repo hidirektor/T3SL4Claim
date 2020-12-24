@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.util.ClaimUtil;
-import me.t3sl4.claim.util.Gui;
-import me.t3sl4.claim.util.Messages;
+import me.t3sl4.claim.util.*;
 
 import org.bukkit.*;
 import org.bukkit.command.Command;
@@ -15,67 +13,68 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class ClaimCommand implements CommandExecutor {
-
 	public static List<Player> canInfo = new ArrayList<>();
 	private ClaimUtil claimUtil = T3SL4Claim.getClaimUtil();
+
+	static SettingsManager manager = SettingsManager.getInstance();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String str, String[] args) {
 		if (args.length == 0) {
 			if(sender.isOp()) {
-				sender.sendMessage(Messages.COMMAND_HELP1);
-				sender.sendMessage(Messages.COMMAND_HELPRELOAD);
-				sender.sendMessage(Messages.COMMAND_HELP2);
-				sender.sendMessage(Messages.COMMAND_HELP3);
-				sender.sendMessage(Messages.COMMAND_HELP4);
-				sender.sendMessage(Messages.COMMAND_HELP5);
-				sender.sendMessage(Messages.COMMAND_HELP6);
-				sender.sendMessage(Messages.COMMAND_HELP7);
-				sender.sendMessage(Messages.COMMAND_HELP8);
-				sender.sendMessage(Messages.COMMAND_HELP9);
+				sender.sendMessage(MessageUtil.COMMAND_HELP1);
+				sender.sendMessage(MessageUtil.COMMAND_HELPRELOAD);
+				sender.sendMessage(MessageUtil.COMMAND_HELP2);
+				sender.sendMessage(MessageUtil.COMMAND_HELP3);
+				sender.sendMessage(MessageUtil.COMMAND_HELP4);
+				sender.sendMessage(MessageUtil.COMMAND_HELP5);
+				sender.sendMessage(MessageUtil.COMMAND_HELP6);
+				sender.sendMessage(MessageUtil.COMMAND_HELP7);
+				sender.sendMessage(MessageUtil.COMMAND_HELP8);
+				sender.sendMessage(MessageUtil.COMMAND_HELP9);
 			} else if(!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP1);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELPRELOAD);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP2);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP3);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP4);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP5);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP6);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP7);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP8);
-				Bukkit.getConsoleSender().sendMessage(Messages.COMMAND_HELP9);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP1);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELPRELOAD);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP2);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP3);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP4);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP5);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP6);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP7);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP8);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP9);
 			} else {
-				sender.sendMessage(Messages.COMMAND_HELP1);
-				sender.sendMessage(Messages.COMMAND_HELP2);
-				sender.sendMessage(Messages.COMMAND_HELP3);
-				sender.sendMessage(Messages.COMMAND_HELP4);
-				sender.sendMessage(Messages.COMMAND_HELP5);
-				sender.sendMessage(Messages.COMMAND_HELP6);
-				sender.sendMessage(Messages.COMMAND_HELP7);
-				sender.sendMessage(Messages.COMMAND_HELP8);
-				sender.sendMessage(Messages.COMMAND_HELP9);
+				sender.sendMessage(MessageUtil.COMMAND_HELP1);
+				sender.sendMessage(MessageUtil.COMMAND_HELP2);
+				sender.sendMessage(MessageUtil.COMMAND_HELP3);
+				sender.sendMessage(MessageUtil.COMMAND_HELP4);
+				sender.sendMessage(MessageUtil.COMMAND_HELP5);
+				sender.sendMessage(MessageUtil.COMMAND_HELP6);
+				sender.sendMessage(MessageUtil.COMMAND_HELP7);
+				sender.sendMessage(MessageUtil.COMMAND_HELP8);
+				sender.sendMessage(MessageUtil.COMMAND_HELP9);
 			}
 			return true;
 		} else if (args[0].equalsIgnoreCase("menü") || args[0].equalsIgnoreCase("menu")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
-				new Gui();
-				p.openInventory(Gui.getInventory());
+				new GUI();
+				p.openInventory(GUI.getInventory());
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("bilgi") || args[0].equalsIgnoreCase("info")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
 				if(!canInfo.contains(p)) {
@@ -84,10 +83,10 @@ public class ClaimCommand implements CommandExecutor {
 						canInfo.add(p);
 						claimUtil.showChunkBorders(chunk,p,(byte) 14);
 						String[] arg = claimUtil.getTimeAndPlayer(chunk);
-						p.sendMessage(Messages.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
+						p.sendMessage(MessageUtil.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
 						return true;
 					} else {
-						p.sendMessage(Messages.UNKNOWN_CLAIM);
+						p.sendMessage(MessageUtil.UNKNOWN_CLAIM);
 					}
 				}
 				return true;
@@ -95,43 +94,43 @@ public class ClaimCommand implements CommandExecutor {
 		} else if(args[0].equalsIgnoreCase("sorgu") || args[0].equalsIgnoreCase("query")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
 				Chunk chunk = p.getLocation().getChunk();
 				if(!claimUtil.isStaffOrOwner(p, chunk)){
-					p.sendMessage(Messages.YOU_ARE_NOT_STAFF);
+					p.sendMessage(MessageUtil.YOU_ARE_NOT_STAFF);
 					return true;
 				}
 				String[] arg = claimUtil.getTimeAndPlayer(chunk);
-				p.sendMessage(Messages.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
+				p.sendMessage(MessageUtil.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("ekle") || args[0].equalsIgnoreCase("add")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
 				if(args.length==2) {
 					String staff = args[1].toLowerCase();
 					Chunk chunk = p.getLocation().getChunk();
 					if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
-						p.sendMessage(Messages.YOU_ARE_NOT_STAFF);
+						p.sendMessage(MessageUtil.YOU_ARE_NOT_STAFF);
 						return true;
 					}
 					List<String> staffs = claimUtil.getStaffs(chunk);
 					if(!staffs.contains(staff)) {
 						claimUtil.addStaff(p, chunk, staff);
-						p.sendMessage(Messages.STAFF_ADDED.replace("%player%", staff));
+						p.sendMessage(MessageUtil.STAFF_ADDED.replace("%player%", staff));
 					}else{
-						p.sendMessage(Messages.HE_ALREADY_STAFF);
+						p.sendMessage(MessageUtil.HE_ALREADY_STAFF);
 					}
 				}
 				return true;
@@ -139,25 +138,25 @@ public class ClaimCommand implements CommandExecutor {
 		} else if (args[0].equalsIgnoreCase("sil") || args[0].equalsIgnoreCase("remove")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
 				if(args.length==2) {
 					String staff = args[1].toLowerCase();
 					Chunk chunk = p.getLocation().getChunk();
 					if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
-						p.sendMessage(Messages.YOU_ARE_NOT_STAFF);
+						p.sendMessage(MessageUtil.YOU_ARE_NOT_STAFF);
 						return true;
 					}
 					List<String> staffs = claimUtil.getStaffs(chunk);
 					if(staffs.contains(staff)) {
 						claimUtil.delStaff(p, chunk, staff);
-						p.sendMessage(Messages.STAFF_REMOVED.replace("%player%", staff));
+						p.sendMessage(MessageUtil.STAFF_REMOVED.replace("%player%", staff));
 					}else{
-						p.sendMessage(Messages.HE_NOT_STAFF);
+						p.sendMessage(MessageUtil.HE_NOT_STAFF);
 					}
 					return true;
 				}
@@ -165,39 +164,39 @@ public class ClaimCommand implements CommandExecutor {
 		} else if (args[0].equalsIgnoreCase("yetkililer") || args[0].equalsIgnoreCase("staffs")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
 				Chunk chunk = p.getLocation().getChunk();
-				String[] warp_split = Messages.STAFF_LIST.split("%");
+				String[] warp_split = MessageUtil.STAFF_LIST.split("%");
 				String joinType = warp_split[1].substring(7).replace("'", "");
-				p.sendMessage(Messages.colorize(Messages.STAFF_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getStaffs(p, chunk)))));
+				p.sendMessage(MessageUtil.colorize(MessageUtil.STAFF_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getStaffs(p, chunk)))));
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("liste") || args[0].equalsIgnoreCase("list")) {
 			Player p = (Player) sender;
 			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 				return false;
 			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 				return false;
 			} else {
-				String[] warp_split = Messages.CLAIM_LIST.split("%");
+				String[] warp_split = MessageUtil.CLAIM_LIST.split("%");
 				String joinType = warp_split[1].substring(7).replace("'", "");
-				p.sendMessage(Messages.colorize(Messages.CLAIM_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getPlayerClaims(p)))));
+				p.sendMessage(MessageUtil.colorize(MessageUtil.CLAIM_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getPlayerClaims(p)))));
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("chunk")) {
 			if(!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(Messages.CONSOLE);
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
 			} else {
 				Player p = (Player) sender;
 				if(!claimUtil.isEnabledIn(p.getWorld())) {
-					p.sendMessage(Messages.CLAIM_DISABLED_WORLD);
+					p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 					return false;
 				} else {
 					T3SL4Claim.viewers.add(p);
@@ -229,19 +228,21 @@ public class ClaimCommand implements CommandExecutor {
 							}
 						}
 					}
-					p.sendMessage(Messages.colorize(Messages.CHUNK_VIEWED));
+					p.sendMessage(MessageUtil.colorize(MessageUtil.CHUNK_VIEWED));
 					return true;
 				}
 			}
 		} else if (args[0].equalsIgnoreCase("reload")) {
 			if(!(sender instanceof Player)) {
-				Messages.loadMessages(T3SL4Claim.getInstance().getConfig());
-				Bukkit.getConsoleSender().sendMessage(Messages.colorize(Messages.RELOAD));
+				manager.reloadConfig();
+				MessageUtil.loadMessages();
+				Bukkit.getConsoleSender().sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
 			} else if(sender.isOp()) {
-				Messages.loadMessages(T3SL4Claim.getInstance().getConfig());
-				sender.sendMessage(Messages.colorize(Messages.RELOAD));
+				manager.reloadConfig();
+				MessageUtil.loadMessages();
+				sender.sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
 			} else {
-				sender.sendMessage(Messages.ERROR_CMD);
+				sender.sendMessage(MessageUtil.ERROR_CMD);
 				return false;
 			}
 		}

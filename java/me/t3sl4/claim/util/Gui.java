@@ -8,32 +8,32 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gui {
+public class GUI {
 	
 	static Inventory inv;
 
-    public Gui(){
-        inv = Bukkit.createInventory(null, 9*Messages.GUI_SIZE, Messages.GUI_NAME);
+    public GUI(){
+        inv = Bukkit.createInventory(null, 9*MessageUtil.GUI_SIZE, MessageUtil.GUI_NAME);
 
-        List<ClaimGuiItem> reloadCGI = new ArrayList<>();
-        for(ClaimGuiItem cgi: ClaimGuiItem.guiItems) {
+        List<ClaimGUIItem> reloadCGI = new ArrayList<>();
+        for(ClaimGUIItem cgi: ClaimGUIItem.guiItems) {
             if (cgi.getClaimType()==null && cgi.getTypeString()!=null) {
                 reloadCGI.add(cgi);
             }
         	inv.setItem(cgi.getSlot(), cgi.getItem());
         }
         if (!reloadCGI.isEmpty()) {
-            inv = Bukkit.createInventory(null, 9*Messages.GUI_SIZE, Messages.GUI_NAME);
-            ClaimGuiItem.guiItems.clear();
+            inv = Bukkit.createInventory(null, 9*MessageUtil.GUI_SIZE, MessageUtil.GUI_NAME);
+            ClaimGUIItem.guiItems.clear();
             for(String str: T3SL4Claim.getManager().getConfig().getConfigurationSection("Gui.items").getKeys(false)) {
-                new ClaimGuiItem(T3SL4Claim.getManager().getConfig(), str);
+                new ClaimGUIItem(T3SL4Claim.getManager().getConfig(), str);
             }
             loadItems();
         }
     }
 
     private void loadItems() {
-        for(ClaimGuiItem cgi: ClaimGuiItem.guiItems) {
+        for(ClaimGUIItem cgi: ClaimGUIItem.guiItems) {
             inv.setItem(cgi.getSlot(), cgi.getItem());
         }
     }

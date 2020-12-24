@@ -89,7 +89,7 @@ public class ClaimUtil {
         for(String claimNumber: manager.getData().getConfigurationSection("Claims."+name).getKeys(false)) {
             int x = manager.getData().getInt("Claims." + name + "."+claimNumber+".x");
             int z = manager.getData().getInt("Claims." + name + "."+claimNumber+".z");
-            claims.add(Bukkit.getWorld(Messages.ENABLED_WORLD).getChunkAt(x,z));
+            claims.add(Bukkit.getWorld(MessageUtil.ENABLED_WORLD).getChunkAt(x,z));
         }
         return claims;
     }
@@ -345,7 +345,7 @@ public class ClaimUtil {
 				return true;
 			}
 		}*/
-		return world.getName().equalsIgnoreCase(Messages.ENABLED_WORLD);
+		return world.getName().equalsIgnoreCase(MessageUtil.ENABLED_WORLD);
 	}
 	
 	public String timeAddCalculate(String target) {

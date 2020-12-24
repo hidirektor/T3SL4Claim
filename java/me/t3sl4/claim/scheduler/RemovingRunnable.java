@@ -5,13 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import me.t3sl4.claim.api.PlayerClaimEndEvent;
-import me.t3sl4.claim.util.Messages;
+import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 
 public class RemovingRunnable implements Runnable {
 
@@ -31,14 +29,14 @@ public class RemovingRunnable implements Runnable {
                 if(timeIsFinish(manager.getData().getString("Claims."+player+"."+claimNumber+".time"))){
                 	int x = manager.getData().getInt("Claims."+player+"."+claimNumber+".x");
                 	int z = manager.getData().getInt("Claims."+player+"."+claimNumber+".z");
-					Chunk chunk = Bukkit.getWorld(Messages.ENABLED_WORLD).getChunkAt(x,z);
+					Chunk chunk = Bukkit.getWorld(MessageUtil.ENABLED_WORLD).getChunkAt(x,z);
 					PlayerClaimEndEvent pcee = new PlayerClaimEndEvent(Bukkit.getPlayer(player), chunk);
 					Bukkit.getPluginManager().callEvent(pcee);
 					if (pcee.isCancelled()) {
 						isCancelled = true;
 						break;
 					}
-                    Bukkit.broadcastMessage(Messages.CLAIM_END.replace("%player%", player).replace("%claim%", claimNumber).replace("%location%", "x: "+x*16+", z: "+z*16));
+                    Bukkit.broadcastMessage(MessageUtil.CLAIM_END.replace("%player%", player).replace("%claim%", claimNumber).replace("%location%", "x: "+x*16+", z: "+z*16));
                    	manager.getData().set("Claims."+player+"."+claimNumber, null);
                     manager.saveData();
                 }

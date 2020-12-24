@@ -1,7 +1,7 @@
-package me.t3sl4.claim.claimtypes;
+package me.t3sl4.claim.types;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.util.ClaimTYPE;
+import me.t3sl4.claim.util.ClaimType;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
@@ -12,30 +12,30 @@ import me.java9.kredi.KrediAPI;
 import java.util.List;
 
 public class ClaimTypeManager {
-	public static void register(ClaimTYPE type) {
-		ClaimTYPE.claimTypes.add(type);
+	public static void register(ClaimType type) {
+		ClaimType.claimTypes.add(type);
 	}
 
 	public static void unregister(String typeName) {
-		ClaimTYPE type = null;
-		for (ClaimTYPE claimTYPE: ClaimTYPE.claimTypes) {
+		ClaimType type = null;
+		for (ClaimType claimTYPE: ClaimType.claimTypes) {
 			if (claimTYPE.getTypeName().equalsIgnoreCase(typeName)) {
 				type = claimTYPE;
 				break;
 			}
 		}
 		if (type!=null) {
-			ClaimTYPE.claimTypes.remove(type);
+			ClaimType.claimTypes.remove(type);
 		}
 	}
 
-	public static List<ClaimTYPE> getClaimTypes() {
-		return ClaimTYPE.claimTypes;
+	public static List<ClaimType> getClaimTypes() {
+		return ClaimType.claimTypes;
 	}
 
 	public static void load() {
 		if (Bukkit.getServer().getPluginManager().getPlugin("Kredi")!=null) {
-			register(new ClaimTYPE("Kredi", "kredi") {
+			register(new ClaimType("Kredi", "kredi") {
 				@Override
 				public void set(String name, int value) {
 					Player p = Bukkit.getPlayer(name);
@@ -102,7 +102,7 @@ public class ClaimTypeManager {
 			});
 		}
 
-		register(new ClaimTYPE("TL", "TL") {
+		register(new ClaimType("TL", "TL") {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void set(String name, int value) {

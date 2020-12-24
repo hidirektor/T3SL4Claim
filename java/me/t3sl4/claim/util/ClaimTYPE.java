@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
-public abstract class ClaimTYPE {
+public abstract class ClaimType {
 
-	public static List<ClaimTYPE> claimTypes = new ArrayList<ClaimTYPE>();
+	public static List<ClaimType> claimTypes = new ArrayList<ClaimType>();
 	
 	private String name;
 	private String type_name;
 	
-	public ClaimTYPE(String name, String type_name) {
+	public ClaimType(String name, String type_name) {
 		this.name = name;
 		this.type_name = type_name;
 		claimTypes.add(this);
@@ -26,9 +26,9 @@ public abstract class ClaimTYPE {
 		return type_name;
 	}
 	
-	public static ClaimTYPE valueOf(String type_name) {
-		ClaimTYPE type = null;
-		for(ClaimTYPE ctype : claimTypes) {
+	public static ClaimType valueOf(String type_name) {
+		ClaimType type = null;
+		for(ClaimType ctype : claimTypes) {
 			if(ctype.getTypeName().equalsIgnoreCase(type_name)) {
 				type = ctype;
 				break;
@@ -38,7 +38,7 @@ public abstract class ClaimTYPE {
 	}
 
 	public static boolean containsType(String typename) {
-		for(ClaimTYPE ctype : claimTypes) {
+		for(ClaimType ctype : claimTypes) {
 			if(ctype.getTypeName().equalsIgnoreCase(typename)) {
 				return true;
 			}

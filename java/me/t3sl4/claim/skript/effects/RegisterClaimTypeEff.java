@@ -9,11 +9,9 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.claimtypes.ClaimTypeManager;
+import me.t3sl4.claim.types.ClaimTypeManager;
 import me.t3sl4.claim.skript.SkriptLoader;
-import me.t3sl4.claim.util.ClaimTYPE;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
+import me.t3sl4.claim.util.ClaimType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 @Name("Register claim type")
@@ -35,11 +33,11 @@ public class RegisterClaimTypeEff extends Effect {
         if (typenameExpr!=null) {
             typeName = typenameExpr.getSingle(e);
         }
-        if (ClaimTYPE.containsType(typeName)) {
+        if (ClaimType.containsType(typeName)) {
             Skript.error("This claim type name already exists!");
             return;
         }
-        ClaimTypeManager.register(new ClaimTYPE(name, typeName) {
+        ClaimTypeManager.register(new ClaimType(name, typeName) {
             private SkriptLoader skriptLoader = T3SL4Claim.getInstance().getSkriptLoader();
 
             @Override

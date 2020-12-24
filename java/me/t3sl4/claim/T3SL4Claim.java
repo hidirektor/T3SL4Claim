@@ -1,22 +1,18 @@
 package me.t3sl4.claim;
 
-import ch.njol.skript.Skript;
-import ch.njol.skript.SkriptAddon;
 import me.t3sl4.claim.listeners.PlayerListener;
 import me.t3sl4.claim.skript.SkriptLoader;
 import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.commands.ClaimCommand;
-import me.t3sl4.claim.util.Messages;
+import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.t3sl4.claim.claimtypes.ClaimTypeManager;
+import me.t3sl4.claim.types.ClaimTypeManager;
 import me.t3sl4.claim.listeners.InteractListener;
 import me.t3sl4.claim.listeners.InventoryClick;
 import me.t3sl4.claim.scheduler.RemovingRunnable;
@@ -71,7 +67,7 @@ public class T3SL4Claim extends JavaPlugin{
         registerComamands();
         registerListeners();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this,new RemovingRunnable(),20,20*20);
-        Messages.loadMessages(getConfig());
+        MessageUtil.loadMessages();
     }
 
     public static SettingsManager getManager(){
