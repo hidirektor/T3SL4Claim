@@ -15,6 +15,7 @@ import me.t3sl4.claim.api.PlayerClaimStuffAddEvent;
 import me.t3sl4.claim.api.PlayerClaimStuffKickEvent;
 import me.t3sl4.claim.commands.ClaimCommand;
 
+import me.t3sl4.claim.versionmatch.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -24,8 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ClaimUtil {
-
 	static SettingsManager manager = T3SL4Claim.getManager();
+	Material material = XMaterial.RED_WOOL.parseMaterial();
 
 	public boolean isClaimed(Chunk chunk){
 		if(!manager.getData().isConfigurationSection("Claims")) return false;
@@ -316,10 +317,10 @@ public class ClaimUtil {
 			Block b3 = x.getBlock(15, height, i);
 			Block b4 = x.getBlock(i, height, 15);
 
-			p.sendBlockChange(b1.getLocation(), Material.WOOL, data);
-			p.sendBlockChange(b2.getLocation(), Material.WOOL, data);
-			p.sendBlockChange(b3.getLocation(), Material.WOOL, data);
-			p.sendBlockChange(b4.getLocation(), Material.WOOL, data);
+			p.sendBlockChange(b1.getLocation(), material, data);
+			p.sendBlockChange(b2.getLocation(), material, data);
+			p.sendBlockChange(b3.getLocation(), material, data);
+			p.sendBlockChange(b4.getLocation(), material, data);
 		}
 
 		new BukkitRunnable() {

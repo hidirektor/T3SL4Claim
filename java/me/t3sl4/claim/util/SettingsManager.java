@@ -23,25 +23,22 @@ public class SettingsManager {
     private Plugin p;
 
     private FileConfiguration config;
-    private File cfile;
+    private File configfile;
 
     private FileConfiguration data;
     private File dfile;
 
-    private FileConfiguration messages;
-    private File mfile;
+    private FileConfiguration gui;
+    private File guifile;
 
     public void setup(Plugin p) {
-        cfile = new File(p.getDataFolder(), "config.yml");
-        //config.options().copyDefaults(true);
-        //saveConfig();
+        configfile = new File(p.getDataFolder(), "config.yml");
 
         if (!p.getDataFolder().exists()) {
             p.getDataFolder().mkdir();
         }
 
-
-        if(!cfile.exists()){
+        if(!configfile.exists()){
             p.saveDefaultConfig();
         }
         config = p.getConfig();
@@ -57,8 +54,13 @@ public class SettingsManager {
                 Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not create data.yml!");
             }
         }
-
         data = YamlConfiguration.loadConfiguration(dfile);
+
+        guifile = new File(p.getDataFolder(), "gui.yml");
+        if(!guifile.exists()) {
+            p.saveResource("gui.yml", false);
+        }
+        gui = YamlConfiguration.loadConfiguration(guifile);
     }
 
     public FileConfiguration getData() {
@@ -79,21 +81,26 @@ public class SettingsManager {
     }
 
     public FileConfiguration getConfig() {
-
         return config;
+    }
+
+    public FileConfiguration getGUIConfig() {
+        return gui;
     }
 
     public void saveConfig() {
         try {
-            config.save(cfile);
+            config.save(configfile);
+            gui.save(guifile);
         }
         catch (IOException e) {
-            Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save config.yml!");
+            Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save config.yml ve gui.yml!");
         }
     }
 
     public void reloadConfig() {
-        config = YamlConfiguration.loadConfiguration(cfile);
+        config = YamlConfiguration.loadConfiguration(configfile);
+        gui = YamlConfiguration.loadConfiguration(guifile);
     }
 
     public PluginDescriptionFile getDesc() {

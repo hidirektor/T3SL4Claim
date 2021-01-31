@@ -5,8 +5,10 @@ import me.t3sl4.claim.gui.ClaimGUIItem;
 import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;
+import me.t3sl4.claim.versionmatch.Version;
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,11 +20,17 @@ public class InventoryClick implements Listener {
     Economy econ = T3SL4Claim.getEconomy();
     SettingsManager manager = SettingsManager.getInstance();
     ClaimUtil claimUtil = T3SL4Claim.getClaimUtil();
-
+    String menuName;
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
-        if(!e.getInventory().getName().equalsIgnoreCase(MessageUtil.GUI_NAME)) return;
+    	String version = Bukkit.getVersion();
+		if(version.contains("1.8") || version.contains("1.9") || version.contains("1.10") || version.contains("1.11") || version.contains("1.12")) {
+			menuName = e.getInventory().getName();
+		} else {
+			menuName = e.getView().getTitle();
+		}
+        if(!menuName.equalsIgnoreCase(MessageUtil.GUI_NAME)) return;
         if(e.getCurrentItem() == null) return;
         if(!e.getCurrentItem().hasItemMeta()) return;
         if(e.getCurrentItem().getItemMeta().hasDisplayName()){

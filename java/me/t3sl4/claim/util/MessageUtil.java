@@ -20,7 +20,6 @@ public class MessageUtil {
     public static String COMMAND_HELP9;
     public static String COMMAND_HELPRELOAD;
     public static List<String> ENABLED_WORLDS = new ArrayList<>();
-    //public static String ENABLED_WORLDS;
     public static String SPACE = "\n";
     public static String SPACETWO = " ";
     public static String WORLD;
@@ -54,8 +53,8 @@ public class MessageUtil {
 
     public static void loadMessages() {
         PREFIX = colorize(manager.getConfig().getString("Prefix"));
-        GUI_NAME = colorize(manager.getConfig().getString("Gui.name"));
-        GUI_SIZE = manager.getConfig().getInt("Gui.size");
+        GUI_NAME = colorize(manager.getGUIConfig().getString("Gui.name"));
+        GUI_SIZE = manager.getGUIConfig().getInt("Gui.size");
         COMMAND_HELP1 = colorize(manager.getConfig().getString("Commands.help1"));
         COMMAND_HELP2 = colorize(manager.getConfig().getString("Commands.help2"));
         COMMAND_HELP3 = colorize(manager.getConfig().getString("Commands.help3"));
@@ -94,8 +93,8 @@ public class MessageUtil {
         ERROR_CMD = PREFIX + colorize(manager.getConfig().getString("Messages.error-cmd"));
         RELOAD = PREFIX + colorize(manager.getConfig().getString("Messages.reload"));
 
-        for(String str: manager.getConfig().getConfigurationSection("Gui.items").getKeys(false)) {
-            new ClaimGUIItem(manager.getConfig(), str);
+        for(String str: manager.getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
+            new ClaimGUIItem(manager.getGUIConfig(), str, manager.getConfig());
         }
 
     }

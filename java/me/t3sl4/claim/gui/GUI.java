@@ -2,6 +2,7 @@ package me.t3sl4.claim.gui;
 
 import me.t3sl4.claim.T3SL4Claim;
 import me.t3sl4.claim.util.MessageUtil;
+import me.t3sl4.claim.util.SettingsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -26,8 +27,8 @@ public class GUI {
         if (!reloadCGI.isEmpty()) {
             inv = Bukkit.createInventory(null, 9*MessageUtil.GUI_SIZE, MessageUtil.GUI_NAME);
             ClaimGUIItem.guiItems.clear();
-            for(String str: T3SL4Claim.getManager().getConfig().getConfigurationSection("Gui.items").getKeys(false)) {
-                new ClaimGUIItem(T3SL4Claim.getManager().getConfig(), str);
+            for(String str: T3SL4Claim.getManager().getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
+                new ClaimGUIItem(T3SL4Claim.getManager().getGUIConfig(), str, T3SL4Claim.getManager().getConfig());
             }
             loadItems();
         }

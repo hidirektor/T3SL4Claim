@@ -11,7 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ClaimGUIItem {
-
 	public static List<ClaimGUIItem> guiItems = new ArrayList<>();
 	
 	private int slot;
@@ -24,18 +23,18 @@ public class ClaimGUIItem {
 
 	private int day;
 	
-	public ClaimGUIItem(FileConfiguration fc, String selected) {
+	public ClaimGUIItem(FileConfiguration fc, String selected, FileConfiguration fc2) {
 		slot = fc.getInt("Gui.items."+selected+".slot");
 		typeString = fc.isSet("Gui.items."+selected+".type") ? fc.getString("Gui.items."+selected+".type") : null;
 		type = typeString != null ? ClaimType.valueOf(typeString) : null;
 		name = fc.getString("Gui.items."+selected+".name");
 		item = Material.valueOf(fc.getString("Gui.items."+selected+".item").toUpperCase(Locale.US));		
 		lore = fc.getStringList("Gui.items."+selected+".lore");			
-		price = type != null ? fc.getInt("Settings.prices."+ type.getTypeName()+".value") : 0;
+		price = type != null ? fc2.getInt("Settings.prices."+ type.getTypeName()+".value") : 0;
 		day = fc.isSet("Gui.items."+selected+".day") ? fc.getInt("Gui.items."+selected+".day") : 30;
 		guiItems.add(this);		
 	}
-	
+
 	public int getSlot() {
 		return slot;
 	}
