@@ -1,6 +1,7 @@
 package me.t3sl4.claim.util;
 
 import me.t3sl4.claim.gui.ClaimGUIItem;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class MessageUtil {
     public static String OPMODE_CLOSE;
     public static String OPMODE_OPEN;
     public static int SLOT;
+    public static Material BORDER;
 
     static SettingsManager manager = SettingsManager.getInstance();
 
@@ -82,6 +84,7 @@ public class MessageUtil {
         OPMODE_CLOSE = PREFIX + colorize(manager.getConfig().getString("Messages.opmode-close"));
         OPMODE_OPEN = PREFIX + colorize(manager.getConfig().getString("Messages.opmode-open"));
         SLOT = manager.getConfig().getInt("Settings.DisplaySlot");
+        BORDER = Material.valueOf(manager.getConfig().getString("Settings.Border.material"));
 
         for(String str: manager.getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
             new ClaimGUIItem(manager.getGUIConfig(), str, manager.getConfig());
@@ -90,12 +93,12 @@ public class MessageUtil {
     }
 
     public static String colorize(String str) {
-        return str.replace("&", "");
+        return str.replace("&", "§");
     }
 
     public static List<String> colorizeList(List<String> str) {
         for(int x=0; x<str.size(); x++) {
-            str.set(x, str.get(x).replace("&", ""));
+            str.set(x, str.get(x).replace("&", "§"));
         }
         return str;
     }

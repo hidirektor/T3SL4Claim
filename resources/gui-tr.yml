@@ -137,7 +137,7 @@ Gui:
     22:
       slot: 22
       name: '&6&lT3SL4Claim'
-      item: 'GLASS'
+      item: 'BARRIER'
       lore:
         - '&aSüreli Claim Eklentisi!'
     23:

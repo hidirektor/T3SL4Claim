@@ -1,6 +1,8 @@
 Prefix: '&6&lT3SL4Claim &8» '
 Settings:
   DisplaySlot: 22
+  Border:
+    material: 'GLASS'
   enabled-worlds:
     - 'world'
     - 'Orman'
@@ -62,5 +64,5 @@ Messages:
   console: "&4You can not use this command from console!"
   error-cmd: "&4You dont have permission to use this command!"
   reload: "&aPlugin reload successfull!"
-  opmode-close: "&eTo do this, you must first turn on the op mode."
+  opmode-close: "&eOp mode has been de-activated."
   opmode-open: "&eOp mode has been activated."

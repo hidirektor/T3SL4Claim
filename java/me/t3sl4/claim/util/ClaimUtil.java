@@ -1,233 +1,462 @@
-package me.t3sl4.claim.commands;
+package me.t3sl4.claim.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.gui.GUI;
-import me.t3sl4.claim.scheduler.InfoDelayed;
-import me.t3sl4.claim.util.*;
+import me.t3sl4.claim.api.PlayerChunkClaimEvent;
+import me.t3sl4.claim.api.PlayerClaimEndEvent;
+import me.t3sl4.claim.api.PlayerClaimStuffAddEvent;
+import me.t3sl4.claim.api.PlayerClaimStuffKickEvent;
+import me.t3sl4.claim.commands.ClaimCommand;
 
-import org.bukkit.*;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import me.t3sl4.claim.versionmatch.Version;
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class ClaimCommand implements CommandExecutor {
-	//public static List<Player> canInfo = new ArrayList<>();
-	public static boolean canInfo = true;
-	private ClaimUtil claimUtil = T3SL4Claim.getClaimUtil();
-	public static ArrayList<Player> opmod = new ArrayList<>();
-	public static boolean opMode = false;
-	public static boolean stopTask = false;
+public class ClaimUtil {
+	static SettingsManager manager = T3SL4Claim.getManager();
+	Material material = XMaterial.RED_WOOL.parseMaterial();
 
-	static SettingsManager manager = SettingsManager.getInstance();
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String str, String[] args) {
-		if (args.length == 0) {
-			if(sender instanceof Player) {
-				if(sender.hasPermission("t3sl4claim.general") || sender.isOp()) {
-					for(String s : MessageUtil.INFO) {
-						sender.sendMessage(String.valueOf(s));
-					}
-				} else {
-					for(String s : MessageUtil.PLAYERINFO) {
-						sender.sendMessage(String.valueOf(s));
-					}
-				}
-			} else {
-				for ( String s : MessageUtil.INFO) {
-					sender.sendMessage(String.valueOf(s));
-				}
-			}
-			return true;
-		} else if (args[0].equalsIgnoreCase("menü") || args[0].equalsIgnoreCase("menu")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				new GUI();
-				p.openInventory(GUI.getInventory());
-				return true;
-			}
-		} else if (args[0].equalsIgnoreCase("bilgi") || args[0].equalsIgnoreCase("info")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				if(canInfo) {
-					Chunk chunk = p.getLocation().getChunk();
-					if (claimUtil.isClaimed(chunk)) {
-						canInfo = false;
-						me.t3sl4.claim.util.ClaimUtil.infoTask(p);
-						Bukkit.getScheduler().scheduleSyncDelayedTask(T3SL4Claim.getInstance(), new InfoDelayed(), 20 * 10);
-						claimUtil.showChunkBorders(chunk,p,(byte) 14);
-						String[] arg = claimUtil.getTimeAndPlayer(chunk);
-						p.sendMessage(MessageUtil.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
-						return true;
-					} else {
-						p.sendMessage(MessageUtil.UNKNOWN_CLAIM);
-					}
-				}
-				return true;
-			}
-		} else if(args[0].equalsIgnoreCase("sorgu") || args[0].equalsIgnoreCase("query")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				Chunk chunk = p.getLocation().getChunk();
-				if(!claimUtil.isStaffOrOwner(p, chunk)){
-					p.sendMessage(MessageUtil.YOU_ARE_NOT_STAFF);
+	public boolean isClaimed(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return false;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
 					return true;
 				}
-				String[] arg = claimUtil.getTimeAndPlayer(chunk);
-				p.sendMessage(MessageUtil.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
-				return true;
-			}
-		} else if (args[0].equalsIgnoreCase("ekle") || args[0].equalsIgnoreCase("add")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				if(args.length==2) {
-					String staff = args[1].toLowerCase();
-					Chunk chunk = p.getLocation().getChunk();
-					if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
-						p.sendMessage(MessageUtil.YOU_ARE_NOT_STAFF);
-						return true;
-					}
-					List<String> staffs = claimUtil.getStaffs(chunk);
-					if(!staffs.contains(staff)) {
-						claimUtil.addStaff(p, chunk, staff);
-						p.sendMessage(MessageUtil.STAFF_ADDED.replace("%player%", staff));
-					}else{
-						p.sendMessage(MessageUtil.HE_ALREADY_STAFF);
-					}
-				}
-				return true;
-			}
-		} else if (args[0].equalsIgnoreCase("sil") || args[0].equalsIgnoreCase("remove")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				if(args.length==2) {
-					String staff = args[1].toLowerCase();
-					Chunk chunk = p.getLocation().getChunk();
-					if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
-						p.sendMessage(MessageUtil.YOU_ARE_NOT_STAFF);
-						return true;
-					}
-					List<String> staffs = claimUtil.getStaffs(chunk);
-					if(staffs.contains(staff)) {
-						claimUtil.delStaff(p, chunk, staff);
-						p.sendMessage(MessageUtil.STAFF_REMOVED.replace("%player%", staff));
-					}else{
-						p.sendMessage(MessageUtil.HE_NOT_STAFF);
-					}
-					return true;
-				}
-			}
-		} else if (args[0].equalsIgnoreCase("yetkililer") || args[0].equalsIgnoreCase("staffs")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				Chunk chunk = p.getLocation().getChunk();
-				String[] warp_split = MessageUtil.STAFF_LIST.split("%");
-				String joinType = warp_split[1].substring(7).replace("'", "");
-				p.sendMessage(MessageUtil.colorize(MessageUtil.STAFF_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getStaffs(p, chunk)))));
-				return true;
-			}
-		} else if (args[0].equalsIgnoreCase("liste") || args[0].equalsIgnoreCase("list")) {
-			Player p = (Player) sender;
-			if(!claimUtil.isEnabledIn(p.getWorld())) {
-				p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-				return false;
-			} else if (!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-				return false;
-			} else {
-				String[] warp_split = MessageUtil.CLAIM_LIST.split("%");
-				String joinType = warp_split[1].substring(7).replace("'", "");
-				p.sendMessage(MessageUtil.colorize(MessageUtil.CLAIM_LIST.replace("%"+warp_split[1]+"%", String.join(joinType, claimUtil.getPlayerClaims(p)))));
-				return true;
-			}
-		} else if (args[0].equalsIgnoreCase("chunk")) {
-			if(!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.CONSOLE);
-			} else {
-				Player p = (Player) sender;
-				if(!claimUtil.isEnabledIn(p.getWorld())) {
-					p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
-					return false;
-				} else {
-					ChunkViewer.viewers.add(p);
-					ChunkViewer.viewerslocs.add(p.getLocation());
-					ChunkViewer.showChunkVisualizer(p);
-					return true;
-				}
-			}
-		} else if(args[0].equalsIgnoreCase("opmode")){
-			Player p = (Player) sender;
-			if(opMode){
-				opMode = false;
-				opmod.remove(p);
-				p.sendMessage(MessageUtil.OPMODE_CLOSE);
-				return true;
-			}
-			else if(!p.isOp() || !p.hasPermission("t3sl4claim.opmode")){
-				p.sendMessage(MessageUtil.ERROR_CMD);
-				return true;
-			}
-			opmod.add(p);
-			opMode = true;
-			p.sendMessage(MessageUtil.OPMODE_OPEN);
-			return true;
-
-		} else if (args[0].equalsIgnoreCase("reload")) {
-			if(!(sender instanceof Player)) {
-				manager.reloadConfig();
-				MessageUtil.loadMessages();
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
-			} else if(sender.isOp()) {
-				manager.reloadConfig();
-				MessageUtil.loadMessages();
-				sender.sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
-			} else {
-				sender.sendMessage(MessageUtil.ERROR_CMD);
-				return false;
 			}
 		}
 		return false;
+	}
+
+	public List<String> getAllClaims(){
+		List<String> claims = new ArrayList<>();
+		if(!manager.getData().isConfigurationSection("Claims")) return claims;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				int x = manager.getData().getInt("Claims." + player + "."+claimNumber+".x");
+				int z = manager.getData().getInt("Claims." + player + "."+claimNumber+".x");
+				String time = manager.getData().getString("Claims." + player + "."+claimNumber+".time");
+				claims.add(player+","+claimNumber+","+x+"-"+z+","+time);
+			}
+		}
+		return claims;
+	}
+
+	public boolean isPlayerClaim(Player p, Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return false;
+		if(!manager.getData().isConfigurationSection("Claims."+p.getName().toLowerCase())) return false;
+		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+p.getName().toLowerCase()).getKeys(false)) {
+			if (manager.getData().getInt("Claims." + p.getName().toLowerCase() + "."+claimNumber+".x") == chunk.getX()
+					&& manager.getData().getInt("Claims." + p.getName().toLowerCase() + "."+claimNumber+ ".z") == chunk.getZ()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<String> getPlayerClaims(Player p){
+		if(!manager.getData().isConfigurationSection("Claims")) return new ArrayList<>();
+		if(!manager.getData().isConfigurationSection("Claims."+p.getName().toLowerCase())) return new ArrayList<>();
+		List<String> claims = new ArrayList<>();
+		String name = p.getName().toLowerCase();
+		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+name).getKeys(false)) {
+			String world = manager.getData().getString("Claims." + name + "."+claimNumber+".world");
+			int x = manager.getData().getInt("Claims." + name + "."+claimNumber+".saved-loc.x");
+			int z = manager.getData().getInt("Claims." + name + "."+claimNumber+".saved-loc.z");
+			claims.add(MessageUtil.CLAIM + claimNumber + MessageUtil.SPLITTER + MessageUtil.WORLD + world + MessageUtil.SPACETWO + MessageUtil.X + x + MessageUtil.SPACETWO + MessageUtil.Z + z + MessageUtil.SPACETWO);
+		}
+		return claims;
+	}
+
+	public List<Chunk> getPlayerChunks(Player p){
+		if(!manager.getData().isConfigurationSection("Claims")) return new ArrayList<>();
+		if(!manager.getData().isConfigurationSection("Claims."+p.getName().toLowerCase())) return new ArrayList<>();
+		List<Chunk> claims = new ArrayList<>();
+		String name = p.getName().toLowerCase();
+		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+name).getKeys(false)) {
+			int x = manager.getData().getInt("Claims." + name + "."+claimNumber+".x");
+			int z = manager.getData().getInt("Claims." + name + "."+claimNumber+".z");
+			claims.add(p.getWorld().getChunkAt(x,z));
+		}
+		return claims;
+	}
+
+	public String getTime(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return null;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					return manager.getData().getString("Claims."+player+"."+claimNumber+".time");
+				}
+			}
+		}
+		return null;
+	}
+
+	public String getPlayer(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return null;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					return player;
+				}
+			}
+		}
+		return null;
+	}
+
+	public String[] getTimeAndPlayer(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return null;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					String time = manager.getData().getString("Claims."+player+"."+claimNumber+".time");
+					return new String[] {player, time};
+				}
+			}
+		}
+		return null;
+	}
+
+	public void setTime(Chunk chunk, String time){
+		if(!manager.getData().isConfigurationSection("Claims")) return;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					manager.getData().set("Claims."+player+"."+claimNumber+".time", time);
+					manager.saveData();
+					break;
+				}
+			}
+		}
+	}
+
+	public void createClaim(Player p, Chunk chunk, String time){
+		int number = 1;
+		while(true) {
+			if(!manager.getData().isSet("Claims."+p.getName().toLowerCase()+"."+number)) {
+				String name = p.getName().toLowerCase();
+				PlayerChunkClaimEvent pcce = new PlayerChunkClaimEvent(p, chunk);
+				Bukkit.getPluginManager().callEvent(pcce);
+				if (pcce.isCancelled()) break;
+				manager.getData().set("Claims."+name+"."+number+".world", chunk.getWorld().getName());
+				manager.getData().set("Claims."+name+"."+number+".x", chunk.getX());
+				manager.getData().set("Claims."+name+"."+number+".z", chunk.getZ());
+				manager.getData().set("Claims."+name+"."+number+".saved-loc.x", p.getLocation().getX());
+				manager.getData().set("Claims."+name+"."+number+".saved-loc.z", p.getLocation().getZ());
+				manager.getData().set("Claims."+name+"."+number+".time", time);
+				manager.saveData();
+
+				break;
+			}else{
+				number++;
+			}
+		}
+	}
+
+	public void deleteClaim(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return;
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					PlayerClaimEndEvent pcee = new PlayerClaimEndEvent(Bukkit.getPlayer(player), chunk);
+					Bukkit.getPluginManager().callEvent(pcee);
+					if (pcee.isCancelled()) break;
+					manager.getData().set("Claims."+player+"."+claimNumber, null);
+					manager.saveData();
+
+					break;
+				}
+			}
+		}
+	}
+
+	public void addStaff(Player p, Chunk chunk, String staff){
+		String name = p.getName().toLowerCase();
+		if(!manager.getData().isConfigurationSection("Claims")) return;
+		if(!manager.getData().isConfigurationSection("Claims."+name)) return;
+		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+name).getKeys(false)) {
+			if (manager.getData().getInt("Claims." + name + "."+claimNumber+".x") == chunk.getX()
+					&& manager.getData().getInt("Claims." + name + "."+claimNumber+ ".z") == chunk.getZ()) {
+				PlayerClaimStuffAddEvent event = new PlayerClaimStuffAddEvent(p, chunk, Bukkit.getPlayer(staff));
+				Bukkit.getPluginManager().callEvent(event);
+				if (event.isCancelled()) break;
+				List<String> staffs = getStaffs(p, chunk);
+				staffs.add(staff.toLowerCase());
+				manager.getData().set("Claims."+name+"."+claimNumber+".staffs", staffs);
+				manager.saveData();
+				break;
+			}
+		}
+	}
+
+	public void delStaff(Player p, Chunk chunk, String staff){
+		String name = p.getName().toLowerCase();
+		if(!manager.getData().isConfigurationSection("Claims")) return;
+		if(!manager.getData().isConfigurationSection("Claims."+name)) return;
+		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+name).getKeys(false)) {
+			if (manager.getData().getInt("Claims." + name + "."+claimNumber+".x") == chunk.getX()
+					&& manager.getData().getInt("Claims." + name + "."+claimNumber+ ".z") == chunk.getZ()) {
+				PlayerClaimStuffKickEvent pcske = new PlayerClaimStuffKickEvent(p, chunk, Bukkit.getPlayer(staff));
+				Bukkit.getPluginManager().callEvent(pcske);
+				if (pcske.isCancelled()) break;
+				List<String> staffs = getStaffs(p, chunk);
+				staffs.remove(staff.toLowerCase());
+				manager.getData().set("Claims."+name+"."+claimNumber+".staffs", staffs);
+				manager.saveData();
+				break;
+			}
+		}
+	}
+
+	public boolean canBuild(Player p, Chunk chunk) {
+		if (isClaimed(chunk)) {
+			if (isStaffOrOwner(p, chunk)) {
+				return true;
+			} else if(ClaimCommand.opmod.contains(p)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	public List<String> getStaffs(Player p, Chunk chunk){
+		String name = p.getName().toLowerCase();
+		if(!manager.getData().isConfigurationSection("Claims")) return new ArrayList<>();
+		if(!manager.getData().isConfigurationSection("Claims."+name)) return new ArrayList<>();
+		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+name).getKeys(false)) {
+			if (manager.getData().getInt("Claims." + name + "."+claimNumber+".x") == chunk.getX()
+					&& manager.getData().getInt("Claims." + name + "."+claimNumber+ ".z") == chunk.getZ()) {
+				if(!manager.getData().isSet("Claims."+name+"."+claimNumber+".staffs")) {
+					return new ArrayList<String>();
+				}else{
+					return manager.getData().getStringList("Claims."+name+"."+claimNumber+".staffs");
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
+
+	public List<String> getStaffs(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return new ArrayList<>();
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					if(!manager.getData().isSet("Claims."+player+"."+claimNumber+".staffs")) {
+						return new ArrayList<String>();
+					}else{
+						return manager.getData().getStringList("Claims."+player+"."+claimNumber+".staffs");
+					}
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
+
+	private List<String> getStaffsAndOwner(Chunk chunk){
+		if(!manager.getData().isConfigurationSection("Claims")) return new ArrayList<>();
+		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
+			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
+			for(String claimNumber: manager.getData().getConfigurationSection("Claims."+player).getKeys(false)) {
+				if (manager.getData().getInt("Claims." + player + "."+claimNumber+".x") == chunk.getX()
+						&& manager.getData().getInt("Claims." + player + "."+claimNumber+ ".z") == chunk.getZ()) {
+					if(!manager.getData().isSet("Claims."+player+"."+claimNumber+".staffs")) {
+						List<String> staffs = new ArrayList<String>();
+						staffs.add(player.toLowerCase());
+						return staffs;
+					}else{
+						List<String> staffs = manager.getData().getStringList("Claims."+player+"."+claimNumber+".staffs");
+						staffs.add(player.toLowerCase());
+						return staffs;
+					}
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
+
+	public boolean isStaffOrOwner(Player p, Chunk chunk){
+		return getStaffsAndOwner(chunk).contains(p.getName().toLowerCase());
+	}
+
+	@SuppressWarnings("deprecation")
+	public void showChunkBorders(final Chunk x, final Player p, byte data) {
+		final int height = p.getLocation().getBlockY() + 2;
+
+		for (int i = 0; i < 16; i++) {
+			Block b1 = x.getBlock(i, height, 0);
+			Block b2 = x.getBlock(0, height, i);
+			Block b3 = x.getBlock(15, height, i);
+			Block b4 = x.getBlock(i, height, 15);
+
+			p.sendBlockChange(b1.getLocation(), material, data);
+			p.sendBlockChange(b2.getLocation(), material, data);
+			p.sendBlockChange(b3.getLocation(), material, data);
+			p.sendBlockChange(b4.getLocation(), material, data);
+		}
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < 16; i++) {
+					Block b1 = x.getBlock(i, height, 0);
+					Block b2 = x.getBlock(0, height, i);
+					Block b3 = x.getBlock(15, height, i);
+					Block b4 = x.getBlock(i, height, 15);
+
+					b1.getState().update();
+					b2.getState().update();
+					b3.getState().update();
+					b4.getState().update();
+				}
+				ClaimCommand.canInfo.remove(p);
+			}
+		}.runTaskLaterAsynchronously(T3SL4Claim.getInstance(), 20L*15);
+
+
+	}
+
+	public boolean isEnabledIn(World world) {
+		if(MessageUtil.ENABLED_WORLDS.contains(world.getName())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public String timeAddCalculate(String target) {
+		try{
+			String time = getServerTime();
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			Date date = df.parse(time);
+			String[] targetargs = target.split(" ");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.DAY_OF_MONTH, parseInt(targetargs[0].split("/")[0]));
+			cal.add(Calendar.MONTH, parseInt(targetargs[0].split("/")[1]));
+			cal.add(Calendar.YEAR, parseInt(targetargs[0].split("/")[2]));
+
+			cal.add(Calendar.HOUR_OF_DAY, parseInt(targetargs[1].split(":")[0]));
+			cal.add(Calendar.MINUTE, parseInt(targetargs[1].split(":")[1]));
+
+			return df.format(cal.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public String timeAddCalculate(String one, String target) {
+		try{
+			String time = one;
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			Date date = df.parse(time);
+			String[] targetargs = target.split(" ");
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.DAY_OF_MONTH, parseInt(targetargs[0].split("/")[0]));
+			cal.add(Calendar.MONTH, parseInt(targetargs[0].split("/")[1]));
+			cal.add(Calendar.YEAR, parseInt(targetargs[0].split("/")[2]));
+
+			cal.add(Calendar.HOUR_OF_DAY, parseInt(targetargs[1].split(":")[0]));
+			cal.add(Calendar.MINUTE, parseInt(targetargs[1].split(":")[1]));
+
+			return df.format(cal.getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	private String getServerTime() {
+		Date date = new Date();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		df.format(date);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return df.format(cal.getTime());
+	}
+
+	public String timeRemoveCalculateStr(String target) {
+		try {
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			Date date2 = df.parse(getServerTime());
+			Date date1 = df.parse(target);
+			long ms = date1.getTime()-date2.getTime();
+			String time = msToTime(ms);
+			String[] args = time.split(":");
+			String calc = "";
+			if(!args[0].equalsIgnoreCase("0")) {
+				calc = args[0] + " gün";
+			}
+			if(!args[1].equalsIgnoreCase("0")) {
+				calc = calc + " "+ args[1] + " saat";
+			}
+			if(!args[2].equalsIgnoreCase("0")) {
+				calc = calc + " "+ args[2] + " dakika";
+			}
+			return calc;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	//g�n saat dakika
+	private String msToTime(long ms) {
+		long seconds = ms/1000;
+		long minutes = seconds/60;
+		long hours = minutes/60;
+		long days = hours/24;
+		return (days + ":" + hours%24 + ":" + minutes%60);
+	}
+
+	public String msToLongTime(long ms) {
+		long seconds = ms/1000;
+		long minutes = seconds/60;
+		long hours = minutes/60;
+		long days = hours/24;
+		long month = days/30;
+		long year = month/12;
+		return (days%30 + "/" + month%12 + "/" + year + " " + hours%24 + ":" + minutes%60);
+	}
+
+	private int parseInt(String str) {
+		try {
+			return Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
 	}
 
 }

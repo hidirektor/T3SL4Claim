@@ -134,7 +134,7 @@ Gui:
     22:
       slot: 22
       name: "&6The chunk you're in"
-      item: 'STAINED_GLASS_PANE'
+      item: 'BARRIER'
       lore:
         - '&7You can see the chunk you are in by clicking here.'
         - '&7The area around you is covered with glass.'

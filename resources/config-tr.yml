@@ -1,6 +1,8 @@
 Prefix: '&6&lT3SL4Claim &8» '
 Settings:
   DisplaySlot: 22
+  Border:
+    material: 'GLASS'
   enabled-worlds:
     - 'world'
     - 'Orman'
@@ -20,6 +22,14 @@ World:
 Info:
   Commands:
     - '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+    - '&a/claim menü &f»&eClaim Menüsü Açılır.'
+    - '&a/claim ekle &bOyuncu &f»&eClaime Oyuncu Ekler.'
+    - '&a/claim sil &bOyuncu &f»&eClaimden Oyuncu Siler.'
+    - '&a/claim bilgi &f»&eYakındaki Claimleri Gösterir.'
+    - '&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.'
+    - '&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.'
+    - '&a/claim liste &f»&eClaimlerinizini Gösterir.'
+    - '&a/claim chunk &f»&eBulunduğunuz Chunk Sınırlarını Gösterir.'
     - '&a/claim opmode &f»&eOp Modunu Aktif Eder.'
     - '&a/claim reload &f»&eEklentiyi Yeniler.'
   PlayerCommands:
@@ -54,5 +64,5 @@ Messages:
   console: "&4Bu Komutu Konsoldan Giremezsin!"
   error-cmd: "&4Bu Komut İçin Yetkin Yok!"
   reload: "&aEklenti Başarıyla Yenilendi!"
-  opmode-close: "&eBunun İçin Önce Op Modunu Aktif Etmen Gerekiyor."
+  opmode-close: "&eOp Modu kapatıldı."
   opmode-open: "&eOp Mod Aktif Edildi."

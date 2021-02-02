@@ -2,10 +2,10 @@ package me.t3sl4.claim.listeners;
 
 import me.t3sl4.claim.T3SL4Claim;
 import me.t3sl4.claim.gui.ClaimGUIItem;
+import me.t3sl4.claim.util.ChunkVisualizer;
 import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;
-import me.t3sl4.claim.versionmatch.Version;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
@@ -37,6 +37,13 @@ public class InventoryClick implements Listener {
 			e.setCancelled(true);
             Player p = (Player) e.getWhoClicked();
             Chunk chunk = p.getLocation().getChunk();
+            if(e.getSlot() == MessageUtil.SLOT) {
+            	p.closeInventory();
+				T3SL4Claim.viewers.add(p);
+				T3SL4Claim.viewerslocs.add(p.getLocation());
+				ChunkVisualizer.showChunkVisualizer(p);
+				return;
+			}
             if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
             	p.sendMessage(MessageUtil.CLAIM_ALREADY_CLAIMED);
             	p.closeInventory();

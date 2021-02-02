@@ -1,6 +1,5 @@
 package me.t3sl4.claim.util;
 
-import me.t3sl4.claim.T3SL4Claim;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,13 +7,13 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class ChunkViewer {
+public class ChunkVisualizer {
     public static ArrayList<Player> viewers;
     public static ArrayList<Location> viewerslocs;
 
     static {
-        ChunkViewer.viewers = new ArrayList<Player>();
-        ChunkViewer.viewerslocs = new ArrayList<Location>();
+        ChunkVisualizer.viewers = new ArrayList<Player>();
+        ChunkVisualizer.viewerslocs = new ArrayList<Location>();
     }
 
     public static void showChunkVisualizer(Player p) {
@@ -32,16 +31,16 @@ public class ChunkViewer {
                 corner3 = chunk.getBlock(15 - i2, i, 15).getLocation();
                 corner4 = chunk.getBlock(0, i, 15 - i2).getLocation();
                 if (corner1.getBlock().getType() == Material.AIR) {
-                    p.sendBlockChange(corner1, Material.GLASS, (byte)0);
+                    p.sendBlockChange(corner1, MessageUtil.BORDER, (byte)0);
                 }
                 if (corner2.getBlock().getType() == Material.AIR) {
-                    p.sendBlockChange(corner2, Material.GLASS, (byte)0);
+                    p.sendBlockChange(corner2, MessageUtil.BORDER, (byte)0);
                 }
                 if (corner3.getBlock().getType() == Material.AIR) {
-                    p.sendBlockChange(corner3, Material.GLASS, (byte)0);
+                    p.sendBlockChange(corner3, MessageUtil.BORDER, (byte)0);
                 }
                 if (corner4.getBlock().getType() == Material.AIR) {
-                    p.sendBlockChange(corner4, Material.GLASS, (byte)0);
+                    p.sendBlockChange(corner4, MessageUtil.BORDER, (byte)0);
                 }
             }
         }

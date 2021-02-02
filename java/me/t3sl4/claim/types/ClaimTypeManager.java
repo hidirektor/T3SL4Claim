@@ -6,7 +6,7 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.java9.kredi.KrediAPI;
+import me.t3sl4.kredi.util.KrediAPI;
 
 import java.util.List;
 

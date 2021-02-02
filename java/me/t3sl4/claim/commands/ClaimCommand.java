@@ -7,6 +7,9 @@ import me.t3sl4.claim.T3SL4Claim;
 import me.t3sl4.claim.gui.GUI;
 import me.t3sl4.claim.util.*;
 
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,44 +19,33 @@ import org.bukkit.entity.Player;
 public class ClaimCommand implements CommandExecutor {
 	public static List<Player> canInfo = new ArrayList<>();
 	private ClaimUtil claimUtil = T3SL4Claim.getClaimUtil();
-
+	public static ArrayList<Player> opmod = new ArrayList<>();
+	public static boolean opMode = false;
 	static SettingsManager manager = SettingsManager.getInstance();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String str, String[] args) {
+		TextComponent msg = new TextComponent("§e§lAuthor §7|| §e§lYapımcı");
+		msg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, (new ComponentBuilder("§7Eklenti Yapımcısı:\n   §8§l» §eSYN_T3SL4 \n   §8§l» §7Discord: §eHalil#4439")).create()));
+
 		if (args.length == 0) {
-			if(sender.isOp()) {
-				sender.sendMessage(MessageUtil.COMMAND_HELP1);
-				sender.sendMessage(MessageUtil.COMMAND_HELPRELOAD);
-				sender.sendMessage(MessageUtil.COMMAND_HELP2);
-				sender.sendMessage(MessageUtil.COMMAND_HELP3);
-				sender.sendMessage(MessageUtil.COMMAND_HELP4);
-				sender.sendMessage(MessageUtil.COMMAND_HELP5);
-				sender.sendMessage(MessageUtil.COMMAND_HELP6);
-				sender.sendMessage(MessageUtil.COMMAND_HELP7);
-				sender.sendMessage(MessageUtil.COMMAND_HELP8);
-				sender.sendMessage(MessageUtil.COMMAND_HELP9);
-			} else if(!(sender instanceof Player)) {
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP1);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELPRELOAD);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP2);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP3);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP4);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP5);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP6);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP7);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP8);
-				Bukkit.getConsoleSender().sendMessage(MessageUtil.COMMAND_HELP9);
+			if(sender instanceof Player) {
+				Player hover = (Player) sender;
+				if(sender.isOp() || sender.hasPermission("t3sl4claim.general")) {
+					for(String s : MessageUtil.INFO) {
+						sender.sendMessage(String.valueOf(s));
+					}
+					hover.spigot().sendMessage(msg);
+				} else {
+					for(String s : MessageUtil.PLAYERINFO) {
+						sender.sendMessage(String.valueOf(s));
+					}
+					hover.spigot().sendMessage(msg);
+				}
 			} else {
-				sender.sendMessage(MessageUtil.COMMAND_HELP1);
-				sender.sendMessage(MessageUtil.COMMAND_HELP2);
-				sender.sendMessage(MessageUtil.COMMAND_HELP3);
-				sender.sendMessage(MessageUtil.COMMAND_HELP4);
-				sender.sendMessage(MessageUtil.COMMAND_HELP5);
-				sender.sendMessage(MessageUtil.COMMAND_HELP6);
-				sender.sendMessage(MessageUtil.COMMAND_HELP7);
-				sender.sendMessage(MessageUtil.COMMAND_HELP8);
-				sender.sendMessage(MessageUtil.COMMAND_HELP9);
+				for(String s : MessageUtil.INFO) {
+					sender.sendMessage(String.valueOf(s));
+				}
 			}
 			return true;
 		} else if (args[0].equalsIgnoreCase("menü") || args[0].equalsIgnoreCase("menu")) {
@@ -202,37 +194,30 @@ public class ClaimCommand implements CommandExecutor {
 				} else {
 					T3SL4Claim.viewers.add(p);
 					T3SL4Claim.viewerslocs.add(p.getLocation());
-					final Chunk chunk = p.getLocation().getChunk();
-					Location corner1 = chunk.getBlock(0, 0, 0).getLocation();
-					Location corner2 = chunk.getBlock(15, 0, 0).getLocation();
-					Location corner3 = chunk.getBlock(0, 0, 15).getLocation();
-					Location corner4 = chunk.getBlock(15, 0, 15).getLocation();
-					int i = 0;
-					int i2 = 0;
-					for (i = 0; i < 127; ++i) {
-						for (i2 = 0; i2 < 15; ++i2) {
-							corner1 = chunk.getBlock(i2, i, 0).getLocation();
-							corner2 = chunk.getBlock(15, i, i2).getLocation();
-							corner3 = chunk.getBlock(15 - i2, i, 15).getLocation();
-							corner4 = chunk.getBlock(0, i, 15 - i2).getLocation();
-							if (corner1.getBlock().getType() == Material.AIR) {
-								p.sendBlockChange(corner1, Material.GLASS, (byte)0);
-							}
-							if (corner2.getBlock().getType() == Material.AIR) {
-								p.sendBlockChange(corner2, Material.GLASS, (byte)0);
-							}
-							if (corner3.getBlock().getType() == Material.AIR) {
-								p.sendBlockChange(corner3, Material.GLASS, (byte)0);
-							}
-							if (corner4.getBlock().getType() == Material.AIR) {
-								p.sendBlockChange(corner4, Material.GLASS, (byte)0);
-							}
-						}
-					}
+					ChunkVisualizer.showChunkVisualizer(p);
 					p.sendMessage(MessageUtil.colorize(MessageUtil.CHUNK_VIEWED));
 					return true;
 				}
 			}
+		} else if (args[0].equalsIgnoreCase("opmode")) {
+			Player p = (Player) sender;
+			if(p.isOp() || p.hasPermission("t3sl4claim.opmode")) {
+				if(opMode) {
+					opMode = false;
+					opmod.remove(p);
+					p.sendMessage(MessageUtil.OPMODE_CLOSE);
+					return true;
+				} else {
+					opMode = false;
+				}
+			} else {
+				p.sendMessage(MessageUtil.ERROR_CMD);
+				return true;
+			}
+			opmod.add(p);
+			opMode = true;
+			p.sendMessage(MessageUtil.OPMODE_OPEN);
+			return true;
 		} else if (args[0].equalsIgnoreCase("reload")) {
 			if(!(sender instanceof Player)) {
 				manager.reloadConfig();
