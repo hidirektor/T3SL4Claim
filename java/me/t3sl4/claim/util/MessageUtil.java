@@ -9,16 +9,8 @@ public class MessageUtil {
     public static String PREFIX;
     public static String GUI_NAME;
     public static int GUI_SIZE;
-    public static String COMMAND_HELP1;
-    public static String COMMAND_HELP2;
-    public static String COMMAND_HELP3;
-    public static String COMMAND_HELP4;
-    public static String COMMAND_HELP5;
-    public static String COMMAND_HELP6;
-    public static String COMMAND_HELP7;
-    public static String COMMAND_HELP8;
-    public static String COMMAND_HELP9;
-    public static String COMMAND_HELPRELOAD;
+    public static List<String> INFO;
+    public static List<String> PLAYERINFO;
     public static List<String> ENABLED_WORLDS = new ArrayList<>();
     public static String SPACE = "\n";
     public static String SPACETWO = " ";
@@ -48,6 +40,9 @@ public class MessageUtil {
     public static String CONSOLE;
     public static String ERROR_CMD;
     public static String RELOAD;
+    public static String OPMODE_CLOSE;
+    public static String OPMODE_OPEN;
+    public static int SLOT;
 
     static SettingsManager manager = SettingsManager.getInstance();
 
@@ -55,16 +50,8 @@ public class MessageUtil {
         PREFIX = colorize(manager.getConfig().getString("Prefix"));
         GUI_NAME = colorize(manager.getGUIConfig().getString("Gui.name"));
         GUI_SIZE = manager.getGUIConfig().getInt("Gui.size");
-        COMMAND_HELP1 = colorize(manager.getConfig().getString("Commands.help1"));
-        COMMAND_HELP2 = colorize(manager.getConfig().getString("Commands.help2"));
-        COMMAND_HELP3 = colorize(manager.getConfig().getString("Commands.help3"));
-        COMMAND_HELP4 = colorize(manager.getConfig().getString("Commands.help4"));
-        COMMAND_HELP5 = colorize(manager.getConfig().getString("Commands.help5"));
-        COMMAND_HELP6 = colorize(manager.getConfig().getString("Commands.help6"));
-        COMMAND_HELP7 = colorize(manager.getConfig().getString("Commands.help7"));
-        COMMAND_HELP8 = colorize(manager.getConfig().getString("Commands.help8"));
-        COMMAND_HELP9 = colorize(manager.getConfig().getString("Commands.help9"));
-        COMMAND_HELPRELOAD = colorize(manager.getConfig().getString("Commands.helpreload"));
+        INFO = colorizeList(manager.getConfig().getStringList("Info.Commands"));
+        PLAYERINFO = colorizeList(manager.getConfig().getStringList("Info.PlayerCommands"));
         ENABLED_WORLDS = manager.getConfig().getStringList("Settings.enabled-worlds");
         WORLD = manager.getConfig().getString("World.world");
         X = manager.getConfig().getString("World.X");
@@ -92,6 +79,9 @@ public class MessageUtil {
         CONSOLE = PREFIX + colorize(manager.getConfig().getString("Messages.console"));
         ERROR_CMD = PREFIX + colorize(manager.getConfig().getString("Messages.error-cmd"));
         RELOAD = PREFIX + colorize(manager.getConfig().getString("Messages.reload"));
+        OPMODE_CLOSE = PREFIX + colorize(manager.getConfig().getString("Messages.opmode-close"));
+        OPMODE_OPEN = PREFIX + colorize(manager.getConfig().getString("Messages.opmode-open"));
+        SLOT = manager.getConfig().getInt("Settings.DisplaySlot");
 
         for(String str: manager.getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
             new ClaimGUIItem(manager.getGUIConfig(), str, manager.getConfig());
@@ -100,12 +90,12 @@ public class MessageUtil {
     }
 
     public static String colorize(String str) {
-        return str.replace("&", "§");
+        return str.replace("&", "");
     }
 
     public static List<String> colorizeList(List<String> str) {
         for(int x=0; x<str.size(); x++) {
-            str.set(x, str.get(x).replace("&", "§"));
+            str.set(x, str.get(x).replace("&", ""));
         }
         return str;
     }

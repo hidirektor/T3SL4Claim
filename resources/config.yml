@@ -1,5 +1,6 @@
 Prefix: '&6&lT3SL4Claim &8» '
 Settings:
+  DisplaySlot: 22
   enabled-worlds:
     - 'world'
     - 'Orman'
@@ -11,41 +12,55 @@ Settings:
     coinType:
       value: 25
 World:
-  world: "&eDünya: &f"
+  world: "&eWorld: &f"
   X: "&eX: &f"
   Z: "&eZ: &f"
   claim: "&eClaim No: &f"
   splitter: " &7-> "
-Commands:
-  help1: '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
-  helpreload: '&a/claim reload &f»&eEklentiyi Yeniler.'
-  help2: '&a/claim menü &f»&eClaim Menüsü Açılır.'
-  help3: '&a/claim ekle &bOyuncu &f»&eClaime Oyuncu Ekler.'
-  help4: '&a/claim sil &bOyuncu &f»&eClaimden Oyuncu Siler.'
-  help5: '&a/claim bilgi &f»&eYakındaki Claimleri Gösterir.'
-  help6: '&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.'
-  help7: '&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.'
-  help8: '&a/claim liste &f»&eClaimlerinizini Gösterir.'
-  help9: '&a/claim chunk &f»&eBulunduğunuz Chunk Sınırlarını Gösterir.'
+Info:
+  Commands:
+    - '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+    - '&a/claim menu &f»&eOpen the claim menu.'
+    - '&a/claim add &bOyuncu &f»&eAdd player to claim.'
+    - '&a/claim remove &bOyuncu &f»&eRemove player to claim.'
+    - '&a/claim info &f»&eIndicates nearby claims.'
+    - '&a/claim query &f»&eShow the remaining time of claim.'
+    - '&a/claim staffs &f»&eShows the authorized player of claim.'
+    - '&a/claim list &f»&eShow ur claims.'
+    - "&a/claim chunk &f»&eShows the limit of chunk you're in."
+    - '&a/claim opmode &f»&eTurn on / off the op mode for claims.'
+    - '&a/claim reload &f»&eReload plugin.'
+  PlayerCommands:
+    - '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+    - '&a/claim menu &f»&eOpen the claim menu.'
+    - '&a/claim add &bOyuncu &f»&eAdd player to claim.'
+    - '&a/claim remove &bOyuncu &f»&eRemove player to claim.'
+    - '&a/claim info &f»&eIndicates nearby claims.'
+    - '&a/claim query &f»&eShow the remaining time of claim.'
+    - '&a/claim staffs &f»&eShows the authorized player of claim.'
+    - '&a/claim list &f»&eShow ur claims.'
+    - "&a/claim chunk &f»&eShows the limit of chunk you're in."
 Messages:
-  has-not-value: "&4Yeterli %value%&e'ün Yok!"
-  claim-disabled-world: "&4Bu Dünyada Claim Atılamaz!"
-  claim-end: "&b%player% &eAdlı Oyuncunun &a%claim% &eNumaralı &7(&c%location%&7) &eClaimi Bitmiştir!"
-  chunk-already-claimed: "&4Bu Alan Zaten Claimli!"
-  claim-time-changed: "&eClaim &b%time% &eGününe Kadar Uzatıldı!"
-  claim-set: "&aBulunduğunuz Alan Başarıyla Claimlendi!"
-  unknown-error: "&4Bilinmeyen Hata Oluştu Lütfen Sonra Tekrar Deneyin!"
-  claim-info: "&b%player% &eAdlı Oyuncunun &a%time% &eSüresince Sahip Olduğu Claimdesiniz!"
-  you-are-not-staff: "&4Bu Claimde Yetkili Değilsiniz!"
-  he-already-staff: "&4Bu Oyuncu Zaten Yetkili!"
-  he-not-staff: "&4Bu Oyuncu Zaten Yetkili Değil!"
-  staff-added: "&b%player% &eClaime Yetkili Olarak Eklendi!"
-  staff-removed: "&b%player% &eAdlı Yetkili Claimden Silindi!"
-  staff-list: "&eBu Claimdeki Yetkililer: &b%staffs-'&a,&f'%"
-  claim-list: "&eClaimleriniz: &b%claims-'&a,&f'%"
-  unknown-claim: "&4Bulunduğunuz Yerde Bir Claim Yok!"
-  chunk-viewed: "&eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!"
-  chunk-removed: "&eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!"
-  console: "&4Bu Komutu Konsoldan Giremezsin!"
-  error-cmd: "&4Bu Komut İçin Yetkin Yok!"
-  reload: "&aEklenti Başarıyla Yenilendi!"
+  has-not-value: "&4You dont have enough: &e%value%"
+  claim-disabled-world: "&4Claims can not be taken in this world!"
+  claim-end: "&eClaim number &a%claim% &eof player &b%player% &ehas finished. &7(&c%location%&7)"
+  chunk-already-claimed: "&4This area is already claimed !"
+  claim-time-changed: "&eClaim has been extended until &b%time% &e!"
+  claim-set: "&aYour area has been successfully claimed !"
+  unknown-error: "&4Unknown error occurred. Please try again later !"
+  claim-info: "&eYou claim that &b%player% &ehas had for &a%time%&e!"
+  you-are-not-staff: "&4You are not authorized in this claim.!"
+  he-already-staff: "&4This player is already authorized!"
+  he-not-staff: "&4This player is not already authorized!"
+  staff-added: "&b%player% &ehas been added to claim!"
+  staff-removed: "&b%player% &eremoved from claim!"
+  staff-list: "&eStaffs at this claim: &b%staffs-'&a,&f'%"
+  claim-list: "&eYour claims: &b%claims-'&a,&f'%"
+  unknown-claim: "&4No claim where you are!"
+  chunk-viewed: "&eGlasses around it mark chunk boundaries in your area !"
+  chunk-removed: "&eThe glasses around you removed because you move!"
+  console: "&4You can not use this command from console!"
+  error-cmd: "&4You dont have permission to use this command!"
+  reload: "&aPlugin reload successfull!"
+  opmode-close: "&eTo do this, you must first turn on the op mode."
+  opmode-open: "&eOp mode has been activated."

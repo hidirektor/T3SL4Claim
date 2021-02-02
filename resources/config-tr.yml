@@ -1,0 +1,58 @@
+Prefix: '&6&lT3SL4Claim &8» '
+Settings:
+  DisplaySlot: 22
+  enabled-worlds:
+    - 'world'
+    - 'Orman'
+  prices:
+    TL:
+      value: 15000
+    kredi:
+      value: 10
+    coinType:
+      value: 25
+World:
+  world: "&eDünya: &f"
+  X: "&eX: &f"
+  Z: "&eZ: &f"
+  claim: "&eClaim No: &f"
+  splitter: " &7-> "
+Info:
+  Commands:
+    - '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+    - '&a/claim opmode &f»&eOp Modunu Aktif Eder.'
+    - '&a/claim reload &f»&eEklentiyi Yeniler.'
+  PlayerCommands:
+    - '&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m[&6 &lT3SL4Claim &8&l&m]&f&l&m-&8&l&m-&f&l&m-&8&l&m-&f&l&m-&8&l&m-'
+    - '&a/claim menü &f»&eClaim Menüsü Açılır.'
+    - '&a/claim ekle &bOyuncu &f»&eClaime Oyuncu Ekler.'
+    - '&a/claim sil &bOyuncu &f»&eClaimden Oyuncu Siler.'
+    - '&a/claim bilgi &f»&eYakındaki Claimleri Gösterir.'
+    - '&a/claim sorgu &f»&eClaimlerinizin Kalan Zamanlarını Gösterir.'
+    - '&a/claim yetkililer &f»&eBulunduğunuz Claimdeki Yetkilileri Gösterir.'
+    - '&a/claim liste &f»&eClaimlerinizini Gösterir.'
+    - '&a/claim chunk &f»&eBulunduğunuz Chunk Sınırlarını Gösterir.'
+Messages:
+  has-not-value: "&4Yeterli %value%&e'ün Yok!"
+  claim-disabled-world: "&4Bu Dünyada Claim Atılamaz!"
+  claim-end: "&b%player% &eAdlı Oyuncunun &a%claim% &eNumaralı &7(&c%location%&7) &eClaimi Bitmiştir!"
+  chunk-already-claimed: "&4Bu Alan Zaten Claimli!"
+  claim-time-changed: "&eClaim &b%time% &eGününe Kadar Uzatıldı!"
+  claim-set: "&aBulunduğunuz Alan Başarıyla Claimlendi!"
+  unknown-error: "&4Bilinmeyen Hata Oluştu Lütfen Sonra Tekrar Deneyin!"
+  claim-info: "&b%player% &eAdlı Oyuncunun &a%time% &eSüresince Sahip Olduğu Claimdesiniz!"
+  you-are-not-staff: "&4Bu Claimde Yetkili Değilsiniz!"
+  he-already-staff: "&4Bu Oyuncu Zaten Yetkili!"
+  he-not-staff: "&4Bu Oyuncu Zaten Yetkili Değil!"
+  staff-added: "&b%player% &eClaime Yetkili Olarak Eklendi!"
+  staff-removed: "&b%player% &eAdlı Yetkili Claimden Silindi!"
+  staff-list: "&eBu Claimdeki Yetkililer: &b%staffs-'&a,&f'%"
+  claim-list: "&eClaimleriniz: &b%claims-'&a,&f'%"
+  unknown-claim: "&4Bulunduğunuz Yerde Bir Claim Yok!"
+  chunk-viewed: "&eEtrafındaki Camlar Bulunduğun Bölgedeki Chunk Sınırlarını İşaret Ediyor!"
+  chunk-removed: "&eHareket Ettiğin İçin Etrafındaki Camlar Kaldırıldı!"
+  console: "&4Bu Komutu Konsoldan Giremezsin!"
+  error-cmd: "&4Bu Komut İçin Yetkin Yok!"
+  reload: "&aEklenti Başarıyla Yenilendi!"
+  opmode-close: "&eBunun İçin Önce Op Modunu Aktif Etmen Gerekiyor."
+  opmode-open: "&eOp Mod Aktif Edildi."
