@@ -45,6 +45,7 @@ public class MessageUtil {
     public static String OPMODE_OPEN;
     public static int SLOT;
     public static Material BORDER;
+    public static Material CLAIMBLOCK;
 
     static SettingsManager manager = SettingsManager.getInstance();
 
@@ -85,6 +86,7 @@ public class MessageUtil {
         OPMODE_OPEN = PREFIX + colorize(manager.getConfig().getString("Messages.opmode-open"));
         SLOT = manager.getConfig().getInt("Settings.DisplaySlot");
         BORDER = Material.valueOf(manager.getConfig().getString("Settings.Border.material"));
+        CLAIMBLOCK = Material.valueOf(manager.getConfig().getString("Settings.ClaimBlock.material"));
 
         for(String str: manager.getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
             new ClaimGUIItem(manager.getGUIConfig(), str, manager.getConfig());

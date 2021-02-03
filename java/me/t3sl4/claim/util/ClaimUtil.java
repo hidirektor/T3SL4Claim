@@ -15,20 +15,19 @@ import me.t3sl4.claim.api.PlayerClaimStuffAddEvent;
 import me.t3sl4.claim.api.PlayerClaimStuffKickEvent;
 import me.t3sl4.claim.commands.ClaimCommand;
 
-import me.t3sl4.claim.versionmatch.Version;
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ClaimUtil {
 	static SettingsManager manager = T3SL4Claim.getManager();
-	Material material = XMaterial.RED_WOOL.parseMaterial();
+	private static Material material = XMaterial.RED_WOOL.parseMaterial();
+	public static ArrayList<Chunk> chunks = new ArrayList<>();
+	public static Chunk chunk;
+	static int height;
 
-	public boolean isClaimed(Chunk chunk){
+	public static boolean isClaimed(Chunk chunk){
 		if(!manager.getData().isConfigurationSection("Claims")) return false;
 		for(String player: manager.getData().getConfigurationSection("Claims").getKeys(false)){
 			if(!manager.getData().isConfigurationSection("Claims."+player)) continue;
@@ -310,8 +309,9 @@ public class ClaimUtil {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void showChunkBorders(final Chunk x, final Player p, byte data) {
-		final int height = p.getLocation().getBlockY() + 2;
+	public static void showChunkBorders(final Chunk x, final Player p, byte data) {
+		height = p.getLocation().getBlockY() + 2;
+		chunks.add(x);
 
 		for (int i = 0; i < 16; i++) {
 			Block b1 = x.getBlock(i, height, 0);
@@ -342,8 +342,26 @@ public class ClaimUtil {
 				ClaimCommand.canInfo.remove(p);
 			}
 		}.runTaskLaterAsynchronously(T3SL4Claim.getInstance(), 20L*15);
+	}
 
+	public static void setCapital(Chunk x) {
+		Location center = x.getBlock(0, 0, 0).getLocation();
+		center.setY(center.getWorld().getHighestBlockYAt(center));
 
+		Location topLeft = x.getBlock(0, 0, 15).getLocation();
+		topLeft.setY(topLeft.getWorld().getHighestBlockYAt(topLeft));
+		Location topRight = x.getBlock(0, 0, 0).getLocation();
+		topRight.setY(topRight.getWorld().getHighestBlockYAt(topRight));
+		Location bottomLeft = x.getBlock(15, 0, 15).getLocation();
+		bottomLeft.setY(bottomLeft.getWorld().getHighestBlockYAt(bottomLeft));
+		Location bottomRight = x.getBlock(15, 0, -15).getLocation();
+		bottomRight.setY(bottomRight.getWorld().getHighestBlockYAt(bottomRight));
+
+		//center.getBlock().setType(Material.DIAMOND_BLOCK);
+		topLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		topRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		bottomLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		bottomRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
 	}
 
 	public boolean isEnabledIn(World world) {
@@ -432,7 +450,86 @@ public class ClaimUtil {
 		return "";
 	}
 
-	//g�n saat dakika
+	public static void stopChunksBorder(ArrayList<Chunk> chunks){
+		for(Chunk x : chunks){
+			for (int i = 0; i < 16; i++) {
+				Block b1 = x.getBlock(i, height, 0);
+				Block b2 = x.getBlock(0, height, i);
+				Block b3 = x.getBlock(15, height, i);
+				Block b4 = x.getBlock(i, height, 15);
+
+				b1.getState().update();
+				b2.getState().update();
+				b3.getState().update();
+				b4.getState().update();
+			}
+		}
+	}
+
+	public static void stopChunkBorders(Chunk x) {
+		for (int i = 0; i < 16; i++) {
+			Block b1 = x.getBlock(i, height, 0);
+			Block b2 = x.getBlock(0, height, i);
+			Block b3 = x.getBlock(15, height, i);
+			Block b4 = x.getBlock(i, height, 15);
+
+			b1.getState().update();
+			b2.getState().update();
+			b3.getState().update();
+			b4.getState().update();
+		}
+	}
+
+	public static Integer getClaimAmount(Player p){
+
+		Chunk origChunk = p.getLocation().getChunk();
+		int amount = 0;
+
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				chunk = p.getWorld().getChunkAt(origChunk.getX() + x, origChunk.getZ() + z);
+				if (isClaimed(chunk)) {
+					amount += 1;
+				}
+			}
+		}
+		return amount;
+	}
+
+	public static Integer getClaimIDChunk(Chunk x, Player p){
+		int chunkX = x.getX();
+		int chunkZ = x.getZ();
+
+		if(!isClaimed(x)) return null;
+
+		for(String claim_owner: manager.getData().getConfigurationSection("Claims").getKeys(false)) {
+			for(String claim_id: manager.getData().getConfigurationSection("Claims." + claim_owner).getKeys(false)) {
+				int claimID = Integer.parseInt(claim_id);
+				if(manager.getData().getInt("Claims."+p+"."+claimID+".saved-loc.x") == chunkX
+						&& manager.getData().getInt("Claims."+p+"."+claimID+".saved-loc.z") == chunkZ){
+					return claimID;
+				}
+			}
+		}
+		return null;
+	}
+
+	public static ArrayList<Chunk> getClaimsClose(Player p) {
+		ArrayList<Chunk> claimedChunks = new ArrayList<>();
+		Chunk origChunk = p.getLocation().getChunk();
+
+		for (int x = -1; x <= 1; x++) {
+			for (int z = -1; z <= 1; z++) {
+				chunk = p.getWorld().getChunkAt(origChunk.getX() + x, origChunk.getZ() + z);
+				if (isClaimed(chunk)) {
+					claimedChunks.add(chunk);
+				}
+			}
+		}
+		return claimedChunks;
+	}
+
+	//gün saat dakika
 	private String msToTime(long ms) {
 		long seconds = ms/1000;
 		long minutes = seconds/60;
@@ -458,5 +555,4 @@ public class ClaimUtil {
 			return 0;
 		}
 	}
-
 }

@@ -10,6 +10,7 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -71,6 +72,7 @@ public class InventoryClick implements Listener {
             				if(time!=null) {       
             					cgi.getClaimType().remove(p, cgi.getPrice());
             					claimUtil.createClaim(p, chunk, time);
+								claimUtil.setCapital(chunk);
             					p.sendMessage(MessageUtil.CLAIM_SET);
             				}else{
             					p.sendMessage(MessageUtil.UNKNOWN_ERROR);

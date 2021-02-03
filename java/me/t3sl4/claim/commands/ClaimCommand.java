@@ -74,7 +74,6 @@ public class ClaimCommand implements CommandExecutor {
 					Chunk chunk = p.getLocation().getChunk();
 					if (claimUtil.isClaimed(chunk)) {
 						canInfo.add(p);
-						claimUtil.showChunkBorders(chunk,p,(byte) 14);
 						String[] arg = claimUtil.getTimeAndPlayer(chunk);
 						p.sendMessage(MessageUtil.CLAIM_INFO.replace("%player%", arg[0]).replace("%time%", arg[1]));
 						return true;

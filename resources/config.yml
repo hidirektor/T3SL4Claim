@@ -3,6 +3,8 @@ Settings:
   DisplaySlot: 22
   Border:
     material: 'GLASS'
+  ClaimBlock:
+    material: 'BEDROCK'
   enabled-worlds:
     - 'world'
     - 'Orman'
