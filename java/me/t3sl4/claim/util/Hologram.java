@@ -13,14 +13,12 @@ public class Hologram {
 
     public Location loc;
     public String name;
-    public int claim_id;
     public static ArmorStand physicalEntity;
     static ArrayList<ArmorStand> holograms = new ArrayList<>();
 
 
 
-    public Hologram(Location loc,String name,int claim_id){
-        this.claim_id = claim_id;
+    public Hologram(Location loc, String name, String time){
         this.loc = loc;
         this.name = name;
         physicalEntity = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
@@ -32,17 +30,15 @@ public class Hologram {
         physicalEntity.setBasePlate(false);
         physicalEntity.setCanPickupItems(false);
 
-        physicalEntity.setCustomName(ChatColor.YELLOW+"Claim Sahibi : "+ChatColor.WHITE+name+ChatColor.YELLOW+" Claim ID : "
-                +ChatColor.WHITE+claim_id);
-
+        String hololine1 = (MessageUtil.HOLOLINE1.replaceAll("%claim_owner%", name));
+        String hololine2 = (MessageUtil.HOLOLINE2.replaceAll("%end_date%", time));
+        physicalEntity.setCustomName(hololine1 + hololine2);
     }
 
     public static void destroy() {
         for (ArmorStand x : holograms) {
-
             x.remove();
         }
-
     }
 
 }

@@ -1,0 +1,36 @@
+Gui:
+  name: '&eClaim Block Position'
+  size: 5
+  items:
+    '0':
+      slot: 11
+      name: '&6&lLeft Top'
+      item: BEDROCK
+      lore:
+        - '&aYou can get the claim block to the top left by clicking here.'
+        - '&r   '
+        - '&e&nClick to change claim block position to&d Top Left&e&n!'
+    '1':
+      slot: 15
+      name: '&6&lRight Top'
+      item: BEDROCK
+      lore:
+        - '&aYou can get the claim block to the top right by clicking here.'
+        - '&r   '
+        - '&e&nClick to change claim block position to&d Top Right&e&n!'
+    '2':
+      slot: 29
+      name: '&6&lLeft Bottom'
+      item: BEDROCK
+      lore:
+        - '&aYou can get the claim block to the bottom left by clicking here.'
+        - '&r   '
+        - '&e&nClick to change claim block position to&d Bottom Left&e&n!'
+    '3':
+      slot: 33
+      name: '&6&lRight Bottom'
+      item: BEDROCK
+      lore:
+        - '&aYou can get the claim block to the bottom right by clicking here.'
+        - '&r   '
+        - '&e&nClick to change claim block position to&d Bottom Right&e&n!'

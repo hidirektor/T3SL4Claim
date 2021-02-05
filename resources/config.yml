@@ -1,10 +1,15 @@
 Prefix: '&6&lT3SL4Claim &8» '
 Settings:
-  DisplaySlot: 22
+  DisplaySlot: 21
+  ClaimBlockSlot: 23
   Border:
     material: 'GLASS'
   ClaimBlock:
     material: 'BEDROCK'
+  Hologram:
+    height: 2
+    line1: '&eClaim Sahibi : &f%claim_owner%'
+    line2: '&eBitiş Tarihi : &f%end_date%'
   enabled-worlds:
     - 'world'
     - 'Orman'

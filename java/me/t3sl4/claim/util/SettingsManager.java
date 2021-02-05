@@ -3,6 +3,8 @@ package me.t3sl4.claim.util;
 import java.io.File;
 import java.io.IOException;
 
+import me.t3sl4.claim.gui.claimblock.ClaimBlockGUIItem;
+import me.t3sl4.claim.gui.main.ClaimGUIItem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,8 +30,11 @@ public class SettingsManager {
     private FileConfiguration data;
     private File dfile;
 
-    private FileConfiguration gui;
-    private File guifile;
+    private FileConfiguration maingui;
+    private File mainguifile;
+
+    private FileConfiguration claimblockgui;
+    private File claimblockguifile;
 
     public void setup(Plugin p) {
         configfile = new File(p.getDataFolder(), "config.yml");
@@ -56,11 +61,17 @@ public class SettingsManager {
         }
         data = YamlConfiguration.loadConfiguration(dfile);
 
-        guifile = new File(p.getDataFolder(), "gui.yml");
-        if(!guifile.exists()) {
-            p.saveResource("gui.yml", false);
+        mainguifile = new File(p.getDataFolder(), "maingui.yml");
+        if(!mainguifile.exists()) {
+            p.saveResource("maingui.yml", false);
         }
-        gui = YamlConfiguration.loadConfiguration(guifile);
+        maingui = YamlConfiguration.loadConfiguration(mainguifile);
+
+        claimblockguifile = new File(p.getDataFolder(), "claimblockgui.yml");
+        if(!claimblockguifile.exists()) {
+            p.saveResource("claimblockgui.yml", false);
+        }
+        claimblockgui = YamlConfiguration.loadConfiguration(claimblockguifile);
     }
 
     public FileConfiguration getData() {
@@ -85,22 +96,38 @@ public class SettingsManager {
     }
 
     public FileConfiguration getGUIConfig() {
-        return gui;
+        return maingui;
+    }
+
+    public FileConfiguration getClaimBlockGUIConfig() {
+        return claimblockgui;
     }
 
     public void saveConfig() {
         try {
             config.save(configfile);
-            gui.save(guifile);
+            maingui.save(mainguifile);
+            claimblockgui.save(claimblockguifile);
         }
         catch (IOException e) {
-            Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save config.yml ve gui.yml!");
+            Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save config.yml, maingui.yml ve claimblockgui.yml!");
         }
     }
 
     public void reloadConfig() {
         config = YamlConfiguration.loadConfiguration(configfile);
-        gui = YamlConfiguration.loadConfiguration(guifile);
+        maingui = YamlConfiguration.loadConfiguration(mainguifile);
+        claimblockgui = YamlConfiguration.loadConfiguration(claimblockguifile);
+    }
+
+    public void reloadGUIConfigs() {
+        for(String str: getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
+            new ClaimGUIItem(getGUIConfig(), str, getConfig());
+        }
+
+        for(String str: getClaimBlockGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
+            new ClaimBlockGUIItem(getClaimBlockGUIConfig(), str, getConfig());
+        }
     }
 
     public PluginDescriptionFile getDesc() {

@@ -1,0 +1,36 @@
+Gui:
+  name: '&eClaim Bloğu Pozisyonu'
+  size: 5
+  items:
+    '0':
+      slot: 11
+      name: '&6&lSol Üst'
+      item: BEDROCK
+      lore:
+        - '&aBuraya Tıklayarak Claim Bloğunu Sol Üste Alabilirsin.'
+        - '&r   '
+        - '&e&nTıkla ve Claim Bloğu Pozisyonunu&d Sol Üst &e&nOlarak Değiştir!'
+    '1':
+      slot: 15
+      name: '&6&lSağ Üst'
+      item: BEDROCK
+      lore:
+        - '&aBuraya Tıklayarak Claim Bloğunu Sağ Üste Alabilirsin.'
+        - '&r   '
+        - '&e&nTıkla ve Claim Bloğu Pozisyonunu&d Sağ Üst &e&nOlarak Değiştir!'
+    '2':
+      slot: 29
+      name: '&6&lSol Alt'
+      item: BEDROCK
+      lore:
+        - '&aBuraya Tıklayarak Claim Bloğunu Sol Alta Alabilirsin.'
+        - '&r   '
+        - '&e&nTıkla ve Claim Bloğu Pozisyonunu&d Sol Alt &e&nOlarak Değiştir!'
+    '3':
+      slot: 33
+      name: '&6&lSağ Alt'
+      item: BEDROCK
+      lore:
+        - '&aBuraya Tıklayarak Claim Bloğunu Sağ Alta Alabilirsin.'
+        - '&r   '
+        - '&e&nTıkla ve Claim Bloğu Pozisyonunu&d Sağ Alt &e&nOlarak Değiştir!'

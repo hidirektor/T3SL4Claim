@@ -127,12 +127,6 @@ Gui:
         - '&aTimer Claim Plugin!'
     21:
       slot: 21
-      name: '&6&lT3SL4Claim'
-      item: 'GLASS'
-      lore:
-        - '&aTimer Claim Plugin!'
-    22:
-      slot: 22
       name: "&6The chunk you're in"
       item: 'BARRIER'
       lore:
@@ -140,12 +134,21 @@ Gui:
         - '&7The area around you is covered with glass.'
         - ''
         - '&e&nClick to show !'
-    23:
-      slot: 23
+    22:
+      slot: 22
       name: '&6&lT3SL4Claim'
       item: 'GLASS'
       lore:
         - '&aTimer Claim Plugin!'
+    23:
+      slot: 23
+      name: '&6Claim Block Position'
+      item: 'BEDROCK'
+      lore:
+        - '&7If you want to change your claim block position.'
+        - '&7you want to check this menu.'
+        - ''
+        - '&e&nClick to check !'
     24:
       slot: 24
       name: '&6&lT3SL4Claim'

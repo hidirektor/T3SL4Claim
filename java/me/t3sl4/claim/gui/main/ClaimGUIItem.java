@@ -1,4 +1,4 @@
-package me.t3sl4.claim.gui;
+package me.t3sl4.claim.gui.main;
 
 import java.util.ArrayList;
 import java.util.List;

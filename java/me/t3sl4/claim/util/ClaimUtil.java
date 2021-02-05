@@ -344,7 +344,8 @@ public class ClaimUtil {
 		}.runTaskLaterAsynchronously(T3SL4Claim.getInstance(), 20L*15);
 	}
 
-	public static void setCapital(Chunk x) {
+	public static void setCapital(Chunk x, Player p, String time) {
+		String name = p.getName();
 		Location center = x.getBlock(0, 0, 0).getLocation();
 		center.setY(center.getWorld().getHighestBlockYAt(center));
 
@@ -359,6 +360,7 @@ public class ClaimUtil {
 
 		//center.getBlock().setType(Material.DIAMOND_BLOCK);
 		topLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		new Hologram(topLeft.add(0, +MessageUtil.HOLOHEIGHT, 0),name,time);
 		topRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
 		bottomLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
 		bottomRight.getBlock().setType(MessageUtil.CLAIMBLOCK);

@@ -143,9 +143,12 @@ Gui:
     23:
       slot: 23
       name: '&6&lT3SL4Claim'
-      item: 'GLASS'
+      item: 'BEDROCK'
       lore:
-        - '&aSüreli Claim Eklentisi!'
+        - "&7Claim Bloğunun Yerini Değiştirmek İstiyorsan."
+        - "&7Bu Menüye Göz Atmak İsteyebilirsin."
+        - ''
+        - '&e&nTıkla ve Değiştir !'
     24:
       slot: 24
       name: '&6&lT3SL4Claim'

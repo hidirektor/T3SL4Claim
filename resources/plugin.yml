@@ -1,6 +1,6 @@
 name: T3SL4Claim
 author: [SYN_T3SL4]
-version: 31.01.2021
+version: 05.02.2021
 main: me.t3sl4.claim.T3SL4Claim
 description: A claim plugin
 softdepend: [Kredi,Skript]

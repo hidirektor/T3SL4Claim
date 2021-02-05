@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.gui.GUI;
+import me.t3sl4.claim.gui.main.GUI;
 import me.t3sl4.claim.util.*;
 
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -58,7 +58,7 @@ public class ClaimCommand implements CommandExecutor {
 				return false;
 			} else {
 				new GUI();
-				p.openInventory(GUI.getInventory());
+				p.openInventory(GUI.getmainMenuInventory());
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("bilgi") || args[0].equalsIgnoreCase("info")) {
@@ -218,17 +218,21 @@ public class ClaimCommand implements CommandExecutor {
 			p.sendMessage(MessageUtil.OPMODE_OPEN);
 			return true;
 		} else if (args[0].equalsIgnoreCase("reload")) {
-			if(!(sender instanceof Player)) {
+			if(sender instanceof Player) {
+				if(sender.isOp() || sender.hasPermission("t3sl4claim.reload")) {
+					manager.reloadConfig();
+					manager.reloadGUIConfigs();
+					MessageUtil.loadMessages();
+					sender.sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
+				} else {
+					sender.sendMessage(MessageUtil.ERROR_CMD);
+					return false;
+				}
+			} else {
 				manager.reloadConfig();
+				manager.reloadGUIConfigs();
 				MessageUtil.loadMessages();
 				Bukkit.getConsoleSender().sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
-			} else if(sender.isOp()) {
-				manager.reloadConfig();
-				MessageUtil.loadMessages();
-				sender.sendMessage(MessageUtil.colorize(MessageUtil.RELOAD));
-			} else {
-				sender.sendMessage(MessageUtil.ERROR_CMD);
-				return false;
 			}
 		}
 		return false;

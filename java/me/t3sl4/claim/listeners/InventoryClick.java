@@ -1,7 +1,8 @@
 package me.t3sl4.claim.listeners;
 
 import me.t3sl4.claim.T3SL4Claim;
-import me.t3sl4.claim.gui.ClaimGUIItem;
+import me.t3sl4.claim.gui.claimblock.ClaimBlockGUI;
+import me.t3sl4.claim.gui.main.ClaimGUIItem;
 import me.t3sl4.claim.util.ChunkVisualizer;
 import me.t3sl4.claim.util.ClaimUtil;
 import me.t3sl4.claim.util.MessageUtil;
@@ -10,7 +11,6 @@ import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,6 +44,11 @@ public class InventoryClick implements Listener {
 				T3SL4Claim.viewerslocs.add(p.getLocation());
 				ChunkVisualizer.showChunkVisualizer(p);
 				return;
+			} else if(e.getSlot() == MessageUtil.CLAIMBLOCKSLOT) {
+            	p.closeInventory();
+            	new ClaimBlockGUI();
+				p.openInventory(ClaimBlockGUI.getClaimBlockMenuInventory());
+            	return;
 			}
             if(claimUtil.isClaimed(chunk) && !claimUtil.isPlayerClaim(p, chunk)) {
             	p.sendMessage(MessageUtil.CLAIM_ALREADY_CLAIMED);
@@ -72,7 +77,7 @@ public class InventoryClick implements Listener {
             				if(time!=null) {       
             					cgi.getClaimType().remove(p, cgi.getPrice());
             					claimUtil.createClaim(p, chunk, time);
-								claimUtil.setCapital(chunk);
+								claimUtil.setCapital(chunk, p, time);
             					p.sendMessage(MessageUtil.CLAIM_SET);
             				}else{
             					p.sendMessage(MessageUtil.UNKNOWN_ERROR);

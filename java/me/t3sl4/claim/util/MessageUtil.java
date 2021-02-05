@@ -1,6 +1,7 @@
 package me.t3sl4.claim.util;
 
-import me.t3sl4.claim.gui.ClaimGUIItem;
+import me.t3sl4.claim.gui.claimblock.ClaimBlockGUIItem;
+import me.t3sl4.claim.gui.main.ClaimGUIItem;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ public class MessageUtil {
     public static String PREFIX;
     public static String GUI_NAME;
     public static int GUI_SIZE;
+    public static String CLAIMBLOCKGUI_NAME;
+    public static int CLAIMBLOCKGUI_SIZE;
     public static List<String> INFO;
     public static List<String> PLAYERINFO;
     public static List<String> ENABLED_WORLDS = new ArrayList<>();
@@ -46,6 +49,10 @@ public class MessageUtil {
     public static int SLOT;
     public static Material BORDER;
     public static Material CLAIMBLOCK;
+    public static int CLAIMBLOCKSLOT;
+    public static int HOLOHEIGHT;
+    public static String HOLOLINE1;
+    public static String HOLOLINE2;
 
     static SettingsManager manager = SettingsManager.getInstance();
 
@@ -87,9 +94,19 @@ public class MessageUtil {
         SLOT = manager.getConfig().getInt("Settings.DisplaySlot");
         BORDER = Material.valueOf(manager.getConfig().getString("Settings.Border.material"));
         CLAIMBLOCK = Material.valueOf(manager.getConfig().getString("Settings.ClaimBlock.material"));
+        CLAIMBLOCKGUI_NAME = colorize(manager.getClaimBlockGUIConfig().getString("Gui.name"));
+        CLAIMBLOCKGUI_SIZE = manager.getClaimBlockGUIConfig().getInt("Gui.size");
+        CLAIMBLOCKSLOT = manager.getConfig().getInt("Settings.ClaimBlockSlot");
+        HOLOHEIGHT = manager.getConfig().getInt("Settings.Hologram.height");
+        HOLOLINE1 = colorize(manager.getConfig().getString("Settings.Hologram.line1"));
+        HOLOLINE2 = colorize(manager.getConfig().getString("Settings.Hologram.line2"));
 
         for(String str: manager.getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
             new ClaimGUIItem(manager.getGUIConfig(), str, manager.getConfig());
+        }
+
+        for(String str: manager.getClaimBlockGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
+            new ClaimBlockGUIItem(manager.getClaimBlockGUIConfig(), str, manager.getConfig());
         }
 
     }
