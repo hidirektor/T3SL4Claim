@@ -191,8 +191,8 @@ public class ClaimCommand implements CommandExecutor {
 					p.sendMessage(MessageUtil.CLAIM_DISABLED_WORLD);
 					return false;
 				} else {
-					T3SL4Claim.viewers.add(p);
-					T3SL4Claim.viewerslocs.add(p.getLocation());
+					ChunkVisualizer.viewers.add(p);
+					ChunkVisualizer.viewerslocs.add(p.getLocation());
 					ChunkVisualizer.showChunkVisualizer(p);
 					p.sendMessage(MessageUtil.colorize(MessageUtil.CHUNK_VIEWED));
 					return true;

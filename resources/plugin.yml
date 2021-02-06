@@ -3,8 +3,8 @@ author: [SYN_T3SL4]
 version: 05.02.2021
 main: me.t3sl4.claim.T3SL4Claim
 description: A claim plugin
-softdepend: [Kredi,Skript]
-depend: [Vault]
+depend: [Vault, HolographicDisplays]
+softdepend: [T3SL4Kredi, Skript]
 
 commands:
   claim:

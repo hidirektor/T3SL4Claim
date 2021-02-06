@@ -6,10 +6,14 @@ Settings:
     material: 'GLASS'
   ClaimBlock:
     material: 'BEDROCK'
+    topLeftSlot: 11
+    topRightSlot: 15
+    bottomLeftSlot: 29
+    bottomRightSlot: 33
   Hologram:
-    height: 2
+    height: 0
     line1: '&eClaim Sahibi : &f%claim_owner%'
-    line2: '&eBitiş Tarihi : &f%end_date%'
+    line2: ' &eBitiş Tarihi : &f%end_date%'
   enabled-worlds:
     - 'world'
     - 'Orman'
@@ -73,3 +77,5 @@ Messages:
   reload: "&aPlugin reload successfull!"
   opmode-close: "&eOp mode has been de-activated."
   opmode-open: "&eOp mode has been activated."
+  already-right-there: "&eClaim block already this position."
+  not-belong-you: "&eThis chunk is not yours."

@@ -53,6 +53,12 @@ public class MessageUtil {
     public static int HOLOHEIGHT;
     public static String HOLOLINE1;
     public static String HOLOLINE2;
+    public static int TOPLEFTSLOT;
+    public static int TOPRIGHTSLOT;
+    public static int BOTTOMLEFTSLOT;
+    public static int BOTTOMRIGHTSLOT;
+    public static String ALREADY_RIGHT_THERE;
+    public static String NOT_BELONG_YOU;
 
     static SettingsManager manager = SettingsManager.getInstance();
 
@@ -100,6 +106,12 @@ public class MessageUtil {
         HOLOHEIGHT = manager.getConfig().getInt("Settings.Hologram.height");
         HOLOLINE1 = colorize(manager.getConfig().getString("Settings.Hologram.line1"));
         HOLOLINE2 = colorize(manager.getConfig().getString("Settings.Hologram.line2"));
+        TOPLEFTSLOT = manager.getConfig().getInt("Settings.ClaimBlock.topLeftSlot");
+        TOPRIGHTSLOT = manager.getConfig().getInt("Settings.ClaimBlock.topRightSlot");
+        BOTTOMLEFTSLOT = manager.getConfig().getInt("Settings.ClaimBlock.bottomLeftSlot");
+        BOTTOMRIGHTSLOT = manager.getConfig().getInt("Settings.ClaimBlock.bottomRightSlot");
+        ALREADY_RIGHT_THERE = PREFIX + colorize(manager.getConfig().getString("Messages.already-right-there"));
+        NOT_BELONG_YOU = PREFIX + colorize(manager.getConfig().getString("Messages.not-belong-you"));
 
         for(String str: manager.getGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
             new ClaimGUIItem(manager.getGUIConfig(), str, manager.getConfig());

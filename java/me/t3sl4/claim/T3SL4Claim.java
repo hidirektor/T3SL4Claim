@@ -26,15 +26,7 @@ public class T3SL4Claim extends JavaPlugin{
     private static Economy economy = null;
     private static T3SL4Claim instance;
     private static ClaimUtil claimUtil;
-
     private SkriptLoader skriptLoader;
-    public static ArrayList<Player> viewers;
-    public static ArrayList<Location> viewerslocs;
-
-    static {
-        T3SL4Claim.viewers = new ArrayList<Player>();
-        T3SL4Claim.viewerslocs = new ArrayList<Location>();
-    }
 
     @Override
     public void onEnable(){
@@ -47,16 +39,18 @@ public class T3SL4Claim extends JavaPlugin{
         Bukkit.getConsoleSender().sendMessage(" |____/    |_|   |_| \\_|   |_|   |____/  |____/  |_____|    |_|  ");
         Bukkit.getConsoleSender().sendMessage("    ");
         manager.setup(this);
-        if(!(setupEconomy())){
-            getLogger().info("-------------------------------------------------------------------------");
-            getLogger().severe("[HATA] Ekonomi Sistemi Aktif Edilemedi.");
-            getLogger().info("-------------------------------------------------------------------------");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        } else {
+        if(getServer().getPluginManager().getPlugin("HolographicDisplays")!=null && setupEconomy()) {
             getLogger().info("-------------------------------------------------------------------------");
             getLogger().info("Ekonomi Sistemi Aktif!");
+            getLogger().info("Hologram Sistemi Aktif!");
             getLogger().info("-------------------------------------------------------------------------");
+        } else {
+            getLogger().info("-------------------------------------------------------------------------");
+            getLogger().severe("[HATA] Ekonomi Sistemi Aktif Edilemedi.");
+            getLogger().severe("[HATA] Hologram Sistemi Aktif Edilemedi.");
+            getLogger().severe("Gerekli Eklentiler: Vault + HolographicDisplays.");
+            getLogger().info("-------------------------------------------------------------------------");
+            getServer().getPluginManager().disablePlugin(this);
         }
         if (getServer().getPluginManager().getPlugin("Skript")!=null) {
             skriptLoader = new SkriptLoader(this);

@@ -1,6 +1,7 @@
 package me.t3sl4.claim.listeners;
 
 import me.t3sl4.claim.T3SL4Claim;
+import me.t3sl4.claim.util.ChunkVisualizer;
 import me.t3sl4.claim.util.MessageUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.Chunk;
@@ -16,13 +17,13 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerMove(final PlayerMoveEvent event) {
         final Player player = event.getPlayer();
-        if (T3SL4Claim.viewers.contains(player)) {
+        if (ChunkVisualizer.viewers.contains(player)) {
             final Location loc = player.getLocation();
             final World world = loc.getWorld();
-            final int index = T3SL4Claim.viewers.indexOf(player);
-            final Location prevloc = T3SL4Claim.viewerslocs.get(index);
+            final int index = ChunkVisualizer.viewers.indexOf(player);
+            final Location prevloc = ChunkVisualizer.viewerslocs.get(index);
             final Chunk chunk = prevloc.getChunk();
-            if (loc.getX() != T3SL4Claim.viewerslocs.get(index).getX() || loc.getY() != T3SL4Claim.viewerslocs.get(index).getY() || loc.getZ() != T3SL4Claim.viewerslocs.get(index).getZ()) {
+            if (loc.getX() != ChunkVisualizer.viewerslocs.get(index).getX() || loc.getY() != ChunkVisualizer.viewerslocs.get(index).getY() || loc.getZ() != ChunkVisualizer.viewerslocs.get(index).getZ()) {
                 Location corner1 = chunk.getBlock(0, 0, 0).getLocation();
                 Location corner2 = chunk.getBlock(15, 0, 0).getLocation();
                 Location corner3 = chunk.getBlock(0, 0, 15).getLocation();
@@ -50,8 +51,8 @@ public class PlayerListener implements Listener {
                     }
                 }
                 player.sendMessage(MessageUtil.colorize(MessageUtil.CHUNK_REMOVED));
-                T3SL4Claim.viewers.remove(player);
-                T3SL4Claim.viewerslocs.remove(index);
+                ChunkVisualizer.viewers.remove(player);
+                ChunkVisualizer.viewerslocs.remove(index);
             }
         }
     }

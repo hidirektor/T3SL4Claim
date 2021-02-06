@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import me.t3sl4.claim.T3SL4Claim;
 import me.t3sl4.claim.api.PlayerChunkClaimEvent;
 import me.t3sl4.claim.api.PlayerClaimEndEvent;
@@ -26,6 +29,8 @@ public class ClaimUtil {
 	public static ArrayList<Chunk> chunks = new ArrayList<>();
 	public static Chunk chunk;
 	static int height;
+	public static Hologram topLeftHolo, topRightHolo, bottomLeftHolo, bottomRightHolo;
+	public static Location placeLoc;
 
 	public static boolean isClaimed(Chunk chunk){
 		if(!manager.getData().isConfigurationSection("Claims")) return false;
@@ -56,7 +61,7 @@ public class ClaimUtil {
 		return claims;
 	}
 
-	public boolean isPlayerClaim(Player p, Chunk chunk){
+	public static boolean isPlayerClaim(Player p, Chunk chunk){
 		if(!manager.getData().isConfigurationSection("Claims")) return false;
 		if(!manager.getData().isConfigurationSection("Claims."+p.getName().toLowerCase())) return false;
 		for(String claimNumber: manager.getData().getConfigurationSection("Claims."+p.getName().toLowerCase()).getKeys(false)) {
@@ -167,6 +172,7 @@ public class ClaimUtil {
 				manager.getData().set("Claims."+name+"."+number+".saved-loc.x", p.getLocation().getX());
 				manager.getData().set("Claims."+name+"."+number+".saved-loc.z", p.getLocation().getZ());
 				manager.getData().set("Claims."+name+"."+number+".time", time);
+				manager.getData().set("Claims."+name+"."+number+".claimBlock", 1);
 				manager.saveData();
 
 				break;
@@ -344,8 +350,8 @@ public class ClaimUtil {
 		}.runTaskLaterAsynchronously(T3SL4Claim.getInstance(), 20L*15);
 	}
 
-	public static void setCapital(Chunk x, Player p, String time) {
-		String name = p.getName();
+	public static void setCapital(Chunk x, Player p, String time, int claimID) {
+		String name = p.getName().toLowerCase();
 		Location center = x.getBlock(0, 0, 0).getLocation();
 		center.setY(center.getWorld().getHighestBlockYAt(center));
 
@@ -358,12 +364,98 @@ public class ClaimUtil {
 		Location bottomRight = x.getBlock(15, 0, -15).getLocation();
 		bottomRight.setY(bottomRight.getWorld().getHighestBlockYAt(bottomRight));
 
-		//center.getBlock().setType(Material.DIAMOND_BLOCK);
-		topLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		new Hologram(topLeft.add(0, +MessageUtil.HOLOHEIGHT, 0),name,time);
-		topRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		bottomLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		bottomRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(1)) {
+			topLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		} else if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(2)) {
+			topRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		} else if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(3)) {
+			bottomLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		} else if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(4)) {
+			bottomRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		}
+
+		//HoloLoad(p, topLeft, topRight, bottomLeft, bottomRight, time);
+	}
+
+	public static void changeCapital(Chunk x, Player p, int oldI, int newI) {
+		String name = p.getName().toLowerCase();
+		Location topLeft = x.getBlock(0, 0, 15).getLocation();
+		topLeft.setY(topLeft.getWorld().getHighestBlockYAt(topLeft)-1);
+		Location topRight = x.getBlock(0, 0, 0).getLocation();
+		topRight.setY(topRight.getWorld().getHighestBlockYAt(topRight)-1);
+		Location bottomLeft = x.getBlock(15, 0, 15).getLocation();
+		bottomLeft.setY(bottomLeft.getWorld().getHighestBlockYAt(bottomLeft)-1);
+		Location bottomRight = x.getBlock(15, 0, -15).getLocation();
+		bottomRight.setY(bottomRight.getWorld().getHighestBlockYAt(bottomRight)-1);
+
+		if(isClaimed(x) && isPlayerClaim(p, x)) {
+			if(oldI == newI) {
+				p.sendMessage(MessageUtil.ALREADY_RIGHT_THERE);
+				return;
+			}
+
+			if(oldI == 1) {
+				topLeft.getBlock().setType(Material.AIR);
+			} else if(oldI == 2) {
+				topRight.getBlock().setType(Material.AIR);
+			} else if(oldI == 3) {
+				bottomLeft.getBlock().setType(Material.AIR);
+			} else if(oldI == 4) {
+				bottomRight.getBlock().setType(Material.AIR);
+			}
+
+			if(newI == 1) {
+				placeLoc = x.getBlock(0, 0, 15).getLocation();
+				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+			} else if(newI == 2) {
+				placeLoc = x.getBlock(0, 0, 0).getLocation();
+				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+			} else if(newI == 3) {
+				placeLoc = x.getBlock(15, 0, 15).getLocation();
+				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+			} else if(newI == 4) {
+				placeLoc = x.getBlock(15, 0, -15).getLocation();
+				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+			}
+		} else {
+			p.sendMessage(MessageUtil.NOT_BELONG_YOU);
+		}
+		// TODO
+		//Hologramları tekrar ayarla.
+		//Claim süresi bittiğinde hologramlar ve claim blockları temizlenmeli
+		//HoloLoad(p, topLeft, topRight, bottomLeft, bottomRight, time);
+	}
+
+	public static void HoloLoad(Player p, Location topLeft, Location topRight, Location bottomLeft, Location bottomRight, String time) {
+		TextLine textLine;
+		String name = p.getName();
+		String holol1 = MessageUtil.HOLOLINE1.replaceAll("%claim_owner%", name);
+		String holol2 = MessageUtil.HOLOLINE2.replaceAll("%end_date%", time);
+
+		Location topLefta = topLeft.add(0, +MessageUtil.HOLOHEIGHT, 0);
+		Location topRighta = topRight.add(0, +MessageUtil.HOLOHEIGHT, 0);
+		Location bottomLefta = bottomLeft.add(0, +MessageUtil.HOLOHEIGHT, 0);
+		Location bottomRighta = bottomRight.add(0, +MessageUtil.HOLOHEIGHT, 0);
+
+		topLeftHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), topLeft);
+		textLine = topLeftHolo.insertTextLine(0, holol1);
+		textLine = topLeftHolo.insertTextLine(1, holol2);
+
+		topRightHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), topRight);
+		textLine = topRightHolo.insertTextLine(0, holol1);
+		textLine = topRightHolo.insertTextLine(1, holol2);
+
+		bottomLeftHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), bottomLeft);
+		textLine = bottomLeftHolo.insertTextLine(0, holol1);
+		textLine = bottomLeftHolo.insertTextLine(1, holol2);
+
+		bottomRightHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), bottomRight);
+		textLine = bottomRightHolo.insertTextLine(0, holol1);
+		textLine = bottomRightHolo.insertTextLine(1, holol2);
 	}
 
 	public boolean isEnabledIn(World world) {
@@ -483,7 +575,6 @@ public class ClaimUtil {
 	}
 
 	public static Integer getClaimAmount(Player p){
-
 		Chunk origChunk = p.getLocation().getChunk();
 		int amount = 0;
 
@@ -501,19 +592,28 @@ public class ClaimUtil {
 	public static Integer getClaimIDChunk(Chunk x, Player p){
 		int chunkX = x.getX();
 		int chunkZ = x.getZ();
+		int claimID = 0;
 
-		if(!isClaimed(x)) return null;
-
-		for(String claim_owner: manager.getData().getConfigurationSection("Claims").getKeys(false)) {
-			for(String claim_id: manager.getData().getConfigurationSection("Claims." + claim_owner).getKeys(false)) {
-				int claimID = Integer.parseInt(claim_id);
-				if(manager.getData().getInt("Claims."+p+"."+claimID+".saved-loc.x") == chunkX
-						&& manager.getData().getInt("Claims."+p+"."+claimID+".saved-loc.z") == chunkZ){
-					return claimID;
+		if(isPlayerClaim(p, x)) {
+			for(String claim_owner: manager.getData().getConfigurationSection("Claims").getKeys(false)) {
+				for(String claim_id: manager.getData().getConfigurationSection("Claims." + claim_owner).getKeys(false)) {
+					claimID = Integer.parseInt(claim_id);
+					if(manager.getData().getInt("Claims."+p+"."+claimID+".saved-loc.x") == chunkX
+							&& manager.getData().getInt("Claims."+p+"."+claimID+".saved-loc.z") == chunkZ){
+						return claimID;
+					}
+				}
+			}
+		} else {
+			if(!isClaimed(x)) {
+				int tempNumber = 1;
+				while(tempNumber == 1) {
+					tempNumber -=1;
+					return 1;
 				}
 			}
 		}
-		return null;
+		return claimID;
 	}
 
 	public static ArrayList<Chunk> getClaimsClose(Player p) {
