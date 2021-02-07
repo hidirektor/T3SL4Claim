@@ -7,8 +7,6 @@ import me.t3sl4.claim.commands.ClaimCommand;
 import me.t3sl4.claim.util.MessageUtil;
 import me.t3sl4.claim.util.SettingsManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,8 +15,6 @@ import me.t3sl4.claim.listeners.InteractListener;
 import me.t3sl4.claim.listeners.InventoryClick;
 import me.t3sl4.claim.scheduler.RemovingRunnable;
 import net.milkbowl.vault.economy.Economy;
-
-import java.util.ArrayList;
 
 public class T3SL4Claim extends JavaPlugin{
 

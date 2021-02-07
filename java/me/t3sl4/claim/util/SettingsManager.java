@@ -3,6 +3,7 @@ package me.t3sl4.claim.util;
 import java.io.File;
 import java.io.IOException;
 
+import me.t3sl4.claim.gui.admin.ClaimAdminGUIItem;
 import me.t3sl4.claim.gui.claimblock.ClaimBlockGUIItem;
 import me.t3sl4.claim.gui.main.ClaimGUIItem;
 import org.bukkit.Bukkit;
@@ -35,6 +36,9 @@ public class SettingsManager {
 
     private FileConfiguration claimblockgui;
     private File claimblockguifile;
+
+    private FileConfiguration claimadmingui;
+    private File claimadminguifile;
 
     public void setup(Plugin p) {
         configfile = new File(p.getDataFolder(), "config.yml");
@@ -72,6 +76,12 @@ public class SettingsManager {
             p.saveResource("claimblockgui.yml", false);
         }
         claimblockgui = YamlConfiguration.loadConfiguration(claimblockguifile);
+
+        claimadminguifile = new File(p.getDataFolder(), "claimadmingui.yml");
+        if(!claimadminguifile.exists()) {
+            p.saveResource("claimadmingui.yml", false);
+        }
+        claimadmingui = YamlConfiguration.loadConfiguration(claimadminguifile);
     }
 
     public FileConfiguration getData() {
@@ -103,14 +113,19 @@ public class SettingsManager {
         return claimblockgui;
     }
 
+    public FileConfiguration getClaimAdminGUIConfig() {
+        return claimadmingui;
+    }
+
     public void saveConfig() {
         try {
             config.save(configfile);
             maingui.save(mainguifile);
             claimblockgui.save(claimblockguifile);
+            claimadmingui.save(claimadminguifile);
         }
         catch (IOException e) {
-            Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not save config.yml, maingui.yml ve claimblockgui.yml!");
+            Bukkit.getServer().getLogger().severe(ChatColor.RED + "Dosyalar Kaydedilemedi!");
         }
     }
 
@@ -118,6 +133,7 @@ public class SettingsManager {
         config = YamlConfiguration.loadConfiguration(configfile);
         maingui = YamlConfiguration.loadConfiguration(mainguifile);
         claimblockgui = YamlConfiguration.loadConfiguration(claimblockguifile);
+        claimadmingui = YamlConfiguration.loadConfiguration(claimadminguifile);
     }
 
     public void reloadGUIConfigs() {
@@ -127,6 +143,10 @@ public class SettingsManager {
 
         for(String str: getClaimBlockGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
             new ClaimBlockGUIItem(getClaimBlockGUIConfig(), str, getConfig());
+        }
+
+        for(String str: getClaimAdminGUIConfig().getConfigurationSection("Gui.items").getKeys(false)) {
+            new ClaimAdminGUIItem(getClaimAdminGUIConfig(), str, getConfig());
         }
     }
 

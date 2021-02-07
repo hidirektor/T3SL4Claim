@@ -21,6 +21,7 @@ import me.t3sl4.claim.commands.ClaimCommand;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ClaimUtil {
@@ -29,8 +30,8 @@ public class ClaimUtil {
 	public static ArrayList<Chunk> chunks = new ArrayList<>();
 	public static Chunk chunk;
 	static int height;
-	public static Hologram topLeftHolo, topRightHolo, bottomLeftHolo, bottomRightHolo;
-	public static Location placeLoc;
+	public static Location placeLoc, claimBlockLoc;
+	public static Hologram claimBlockHolo;
 
 	public static boolean isClaimed(Chunk chunk){
 		if(!manager.getData().isConfigurationSection("Claims")) return false;
@@ -350,35 +351,21 @@ public class ClaimUtil {
 		}.runTaskLaterAsynchronously(T3SL4Claim.getInstance(), 20L*15);
 	}
 
-	public static void setCapital(Chunk x, Player p, String time, int claimID) {
-		String name = p.getName().toLowerCase();
+	public static void setCapital(Chunk x, Player p, String time) {
 		Location center = x.getBlock(0, 0, 0).getLocation();
 		center.setY(center.getWorld().getHighestBlockYAt(center));
 
 		Location topLeft = x.getBlock(0, 0, 15).getLocation();
 		topLeft.setY(topLeft.getWorld().getHighestBlockYAt(topLeft));
-		Location topRight = x.getBlock(0, 0, 0).getLocation();
-		topRight.setY(topRight.getWorld().getHighestBlockYAt(topRight));
-		Location bottomLeft = x.getBlock(15, 0, 15).getLocation();
-		bottomLeft.setY(bottomLeft.getWorld().getHighestBlockYAt(bottomLeft));
-		Location bottomRight = x.getBlock(15, 0, -15).getLocation();
-		bottomRight.setY(bottomRight.getWorld().getHighestBlockYAt(bottomRight));
+		claimBlockLoc = topLeft;
 
-		if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(1)) {
-			topLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		} else if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(2)) {
-			topRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		} else if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(3)) {
-			bottomLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		} else if(manager.getData().get("Claims."+name+"."+claimID+".claimBlock").equals(4)) {
-			bottomRight.getBlock().setType(MessageUtil.CLAIMBLOCK);
-		}
-
-		//HoloLoad(p, topLeft, topRight, bottomLeft, bottomRight, time);
+		topLeft.getBlock().setType(MessageUtil.CLAIMBLOCK);
+		topLeft.getBlock().setMetadata("owner", new FixedMetadataValue(T3SL4Claim.getInstance(), p.getName()));
+		topLeft.getBlock().setMetadata("claim_id", new FixedMetadataValue(T3SL4Claim.getInstance(), String.valueOf(getClaimIDChunk(x, p))));
+		HoloLoad(p, topLeft, time, x);
 	}
 
 	public static void changeCapital(Chunk x, Player p, int oldI, int newI) {
-		String name = p.getName().toLowerCase();
 		Location topLeft = x.getBlock(0, 0, 15).getLocation();
 		topLeft.setY(topLeft.getWorld().getHighestBlockYAt(topLeft)-1);
 		Location topRight = x.getBlock(0, 0, 0).getLocation();
@@ -407,55 +394,46 @@ public class ClaimUtil {
 			if(newI == 1) {
 				placeLoc = x.getBlock(0, 0, 15).getLocation();
 				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				claimBlockLoc = placeLoc;
 				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+				claimBlockLoc.add(0.5, MessageUtil.HOLOHEIGHT+0.5, 0.5);
+				ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 			} else if(newI == 2) {
 				placeLoc = x.getBlock(0, 0, 0).getLocation();
 				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				claimBlockLoc = placeLoc;
 				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+				claimBlockLoc.add(0.5, MessageUtil.HOLOHEIGHT+0.5, 0.5);
+				ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 			} else if(newI == 3) {
 				placeLoc = x.getBlock(15, 0, 15).getLocation();
 				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				claimBlockLoc = placeLoc;
 				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+				claimBlockLoc.add(0.5, MessageUtil.HOLOHEIGHT+0.5, 0.5);
+				ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 			} else if(newI == 4) {
 				placeLoc = x.getBlock(15, 0, -15).getLocation();
 				placeLoc.setY(placeLoc.getWorld().getHighestBlockYAt(placeLoc));
+				claimBlockLoc = placeLoc;
 				placeLoc.getBlock().setType(MessageUtil.CLAIMBLOCK);
+				claimBlockLoc.add(0.5, MessageUtil.HOLOHEIGHT+0.5, 0.5);
+				ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 			}
 		} else {
 			p.sendMessage(MessageUtil.NOT_BELONG_YOU);
 		}
-		// TODO
-		//Hologramları tekrar ayarla.
-		//Claim süresi bittiğinde hologramlar ve claim blockları temizlenmeli
-		//HoloLoad(p, topLeft, topRight, bottomLeft, bottomRight, time);
 	}
 
-	public static void HoloLoad(Player p, Location topLeft, Location topRight, Location bottomLeft, Location bottomRight, String time) {
+	public static void HoloLoad(Player p, Location topLeft, String time, Chunk x) {
 		TextLine textLine;
 		String name = p.getName();
-		String holol1 = MessageUtil.HOLOLINE1.replaceAll("%claim_owner%", name);
-		String holol2 = MessageUtil.HOLOLINE2.replaceAll("%end_date%", time);
 
-		Location topLefta = topLeft.add(0, +MessageUtil.HOLOHEIGHT, 0);
-		Location topRighta = topRight.add(0, +MessageUtil.HOLOHEIGHT, 0);
-		Location bottomLefta = bottomLeft.add(0, +MessageUtil.HOLOHEIGHT, 0);
-		Location bottomRighta = bottomRight.add(0, +MessageUtil.HOLOHEIGHT, 0);
-
-		topLeftHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), topLeft);
-		textLine = topLeftHolo.insertTextLine(0, holol1);
-		textLine = topLeftHolo.insertTextLine(1, holol2);
-
-		topRightHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), topRight);
-		textLine = topRightHolo.insertTextLine(0, holol1);
-		textLine = topRightHolo.insertTextLine(1, holol2);
-
-		bottomLeftHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), bottomLeft);
-		textLine = bottomLeftHolo.insertTextLine(0, holol1);
-		textLine = bottomLeftHolo.insertTextLine(1, holol2);
-
-		bottomRightHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), bottomRight);
-		textLine = bottomRightHolo.insertTextLine(0, holol1);
-		textLine = bottomRightHolo.insertTextLine(1, holol2);
+		Location topLefta = topLeft.add(0.5, MessageUtil.HOLOHEIGHT+0.5, 0.5);
+		claimBlockHolo = HologramsAPI.createHologram(T3SL4Claim.getInstance(), topLefta);
+		for(int i=0; i<MessageUtil.HOLOLINES.size(); i++) {
+			textLine = claimBlockHolo.insertTextLine(i, MessageUtil.HOLOLINES.get(i).replaceAll("%claim_owner%", name).replaceAll("%end_date%", time));
+		}
 	}
 
 	public boolean isEnabledIn(World world) {

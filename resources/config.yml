@@ -11,9 +11,12 @@ Settings:
     bottomLeftSlot: 29
     bottomRightSlot: 33
   Hologram:
-    height: 0
-    line1: '&eClaim Sahibi : &f%claim_owner%'
-    line2: ' &eBitiş Tarihi : &f%end_date%'
+    height: 2
+    lines:
+      - '&eClaim Sahibi : &f%claim_owner%'
+      - '&eBitiş Tarihi : &f%end_date%'
+      - '&r   '
+      - '&e&nClaimini Yönetmek İçin Bloğa Sağ Tıkla !'
   enabled-worlds:
     - 'world'
     - 'Orman'

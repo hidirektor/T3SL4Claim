@@ -1,0 +1,12 @@
+Gui:
+  name: '&eClaim Block Position'
+  size: 5
+  items:
+    '0':
+      slot: 11
+      name: '&6&lLeft Top'
+      item: BEDROCK
+      lore:
+        - '&aYou can get the claim block to the top left by clicking here.'
+        - '&r   '
+        - '&e&nClick to change claim block position to&d Top Left&e&n!'

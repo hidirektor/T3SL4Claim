@@ -69,6 +69,10 @@ public class InventoryClick implements Listener {
 									String str = claimUtil.timeAddCalculate(time, day+"/00/0000 00:00");
 									claimUtil.setTime(chunk, str);
 									p.sendMessage(MessageUtil.CLAIM_TIME_CHANGED.replace("%time%", str));
+									ClaimUtil.claimBlockHolo.clearLines();
+									for(int i=0; i<MessageUtil.HOLOLINES.size(); i++) {
+										ClaimUtil.claimBlockHolo.insertTextLine(i, MessageUtil.HOLOLINES.get(i).replaceAll("%claim_owner%", p.getName()).replaceAll("%end_date%", str));
+									}
 								}else{
 									p.sendMessage(MessageUtil.UNKNOWN_ERROR);
 									p.closeInventory();
@@ -76,10 +80,9 @@ public class InventoryClick implements Listener {
 							}else{
 								String time = claimUtil.timeAddCalculate(day+"/00/0000 00:00");
 								if(time!=null) {
-									int claimID = ClaimUtil.getClaimIDChunk(chunk, p);
 									cgi.getClaimType().remove(p, cgi.getPrice());
 									claimUtil.createClaim(p, chunk, time);
-									claimUtil.setCapital(chunk, p, time, claimID);
+									claimUtil.setCapital(chunk, p, time);
 									p.sendMessage(MessageUtil.CLAIM_SET);
 								}else{
 									p.sendMessage(MessageUtil.UNKNOWN_ERROR);
@@ -108,16 +111,19 @@ public class InventoryClick implements Listener {
 					manager.getData().set("Claims."+name+"."+claimID+".claimBlock", 1);
 					manager.saveData();
 					ClaimUtil.changeCapital(chunk, p, oldI, 1);
+					ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 				} else if(e.getSlot() == MessageUtil.TOPRIGHTSLOT) {
 					p.closeInventory();
 					manager.getData().set("Claims."+name+"."+claimID+".claimBlock", 2);
 					manager.saveData();
 					ClaimUtil.changeCapital(chunk, p, oldI, 2);
+					ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 				} else if(e.getSlot() == MessageUtil.BOTTOMLEFTSLOT) {
 					p.closeInventory();
 					manager.getData().set("Claims."+name+"."+claimID+".claimBlock", 3);
 					manager.saveData();
 					ClaimUtil.changeCapital(chunk, p, oldI, 3);
+					ClaimUtil.claimBlockHolo.teleport(ClaimUtil.claimBlockLoc);
 				} else if(e.getSlot() == MessageUtil.BOTTOMRIGHTSLOT) {
 					p.closeInventory();
 					manager.getData().set("Claims."+name+"."+claimID+".claimBlock", 4);
@@ -125,6 +131,8 @@ public class InventoryClick implements Listener {
 					ClaimUtil.changeCapital(chunk, p, oldI, 4);
 				}
 			}
+		} else if(menuName.equalsIgnoreCase(MessageUtil.CLAIMADMIN_NAME)) {
+
 		}
     }
 }
