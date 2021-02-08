@@ -34,6 +34,7 @@ public class T3SL4Claim extends JavaPlugin{
         Bukkit.getConsoleSender().sendMessage("  ___) |   | |   | |\\  |   | |    ___) |  ___) | | |___  |__   _|");
         Bukkit.getConsoleSender().sendMessage(" |____/    |_|   |_| \\_|   |_|   |____/  |____/  |_____|    |_|  ");
         Bukkit.getConsoleSender().sendMessage("    ");
+		Bukkit.getConsoleSender().sendMessage("T3SL4 Series: T3SL4Claim");
         manager.setup(this);
         if(getServer().getPluginManager().getPlugin("HolographicDisplays")!=null && setupEconomy()) {
             getLogger().info("-------------------------------------------------------------------------");
