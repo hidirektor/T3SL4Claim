@@ -1,0 +1,29 @@
+on load:
+	if claimtypes doesn't contain "coinType":
+		register new claimtype {coin::%player%} with name "Coin" with typename "coinType"
+	else:
+		unregister claimtype "coinType"
+		register new claimtype {coin::%player%} with name "Coin" with typename "coinType"
+command /coinset <number>:
+	trigger:
+		set {coin::%player%} to arg-1
+command /coin:
+	trigger:
+		send "&a&lCoinin: &f%{coin::%player%}%"
+command /claiminfo:
+	trigger:
+		set {_claims::*} to claims of player
+		send "&aClaimlerin: &f%{_claims::*}%"
+		send "&aBulunduğun chunktaki claimin sahibi: &f%chunk at player's claim owner%"
+command /claimtest:
+	trigger:
+		claim (chunk at player) for ("mahmut" parsed as player) for 15 days
+		
+on player chunk claim:
+	broadcast "%player% adlı oyuncu %event-chunk% chunkunu claimledi!"
+on claim stuff add:
+	broadcast "%claim owner% adlı oyuncu %player% adlı oyuncuyu %event-chunk% chunkuna ekledi!" 
+on claim stuff kick:
+	broadcast "%claim owner% adlı oyuncu %player% adlı oyuncuyu %event-chunk% chunkundan attı!" 
+on player claim end:
+	broadcast "&c%claim owner% adlı oyuncunun claimi bitti!"

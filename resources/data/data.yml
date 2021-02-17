@@ -1,0 +1,13 @@
+# Example Data Format:
+# SYN_T3SL4
+Claims:
+  syn_t3sl4:
+    '1':
+      world: world
+      x: 30
+      z: 120
+      saved-loc:
+        x: 484.5045861138713
+        z: 1926.6827092023022
+      time: 19/03/2021 17:22
+      claimBlock: 1

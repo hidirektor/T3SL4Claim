@@ -1,7 +1,6 @@
 package me.t3sl4.claim.util;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import me.t3sl4.claim.gui.admin.ClaimAdminGUIItem;
 import me.t3sl4.claim.gui.claimblock.ClaimBlockGUIItem;
@@ -53,7 +52,12 @@ public class SettingsManager {
         config = p.getConfig();
 
 
-        dfile = new File(p.getDataFolder(), "data.yml");
+        File dataFolder = new File(p.getDataFolder() + "/data/");
+        if(!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
+        dfile = new File(p.getDataFolder(), "/data/data.yml");
 
         if (!dfile.exists()) {
             try {
@@ -65,21 +69,26 @@ public class SettingsManager {
         }
         data = YamlConfiguration.loadConfiguration(dfile);
 
-        mainguifile = new File(p.getDataFolder(), "maingui.yml");
+        File guiFolder = new File(p.getDataFolder() + "/gui/");
+        if(!guiFolder.exists()) {
+            guiFolder.mkdirs();
+        }
+
+        mainguifile = new File(p.getDataFolder(), "/gui/main.yml");
         if(!mainguifile.exists()) {
-            p.saveResource("maingui.yml", false);
+            p.saveResource("gui/main.yml", false);
         }
         maingui = YamlConfiguration.loadConfiguration(mainguifile);
 
-        claimblockguifile = new File(p.getDataFolder(), "claimblockgui.yml");
+        claimblockguifile = new File(p.getDataFolder(), "/gui/claimblock.yml");
         if(!claimblockguifile.exists()) {
-            p.saveResource("claimblockgui.yml", false);
+            p.saveResource("gui/claimblock.yml", false);
         }
         claimblockgui = YamlConfiguration.loadConfiguration(claimblockguifile);
 
-        claimadminguifile = new File(p.getDataFolder(), "claimadmingui.yml");
+        claimadminguifile = new File(p.getDataFolder(), "/gui/claimadmin.yml");
         if(!claimadminguifile.exists()) {
-            p.saveResource("claimadmingui.yml", false);
+            p.saveResource("gui/claimadmin.yml", false);
         }
         claimadmingui = YamlConfiguration.loadConfiguration(claimadminguifile);
     }
